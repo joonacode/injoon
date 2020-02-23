@@ -8,6 +8,9 @@ body {
     color: #549494;
 }
 
+$cus-dark: #707070;
+
+
 //Navbar
 
 .navbar-brand {
@@ -271,6 +274,11 @@ label {
 
 table {
     font-size: 14px;
+
+    th {
+        color: #549494 !important;
+
+    }
 }
 
 .dataTables_info {
@@ -283,4 +291,8 @@ table {
 
 .text-small {
     font-size: 12px !important;
+}
+
+.bg-cus-dark {
+    background-color: $cus-dark;
 }
