@@ -1,0 +1,286 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #fff;
+    font-family: 'Rubik', sans-serif;
+    color: #549494;
+}
+
+//Navbar
+
+.navbar-brand {
+    img {
+        max-height: 40px;
+    }
+}
+
+.navbar-dark {
+    .navbar-nav {
+        .nav-link {
+            color: #707070 !important;
+            font-family: Rubik;
+            font-weight: 300;
+            font-size: 14px;
+            text-align: left;
+
+            &.active {
+                color: #707070;
+                font-weight: 500;
+            }
+
+            &:hover {
+                color: #d1c1c1 !important;
+            }
+        }
+    }
+
+    .btn-login {
+        padding: 5px 30px;
+        border-radius: 5px;
+        background: #707070;
+        text-align: center;
+        color: #fff;
+        font-size: 14px;
+    }
+}
+
+//Header
+header {
+    padding: 180px 0 165px;
+    margin-top: -70px;
+    background-image: url('../images/bg_head.png');
+    height: 650px;
+    background-size: cover;
+
+    h1,
+    p {
+        color: #549494;
+    }
+
+    p {
+        font-family: Rubik;
+        font-weight: 300;
+        font-size: 18px;
+        line-height: 33px;
+        text-align: left;
+        color: #549494;
+
+    }
+
+    h1 {
+        font-family: "Zilla Slab";
+        font-weight: bold;
+        font-size: 50px;
+        text-align: left;
+        color: #549494;
+
+    }
+
+    .btn-get-started {
+        border-radius: 5px;
+        background: #eff5ff;
+        padding: 8px 35px;
+        color: #7A7878;
+        font-size: 14px;
+
+        &:hover {
+            background-color: #a4a5a7;
+            color: #fff;
+        }
+    }
+
+    .main {
+        background-color: #a4a5a7;
+        color: #fff;
+
+        &:hover {
+            background: #eff5ff;
+            color: #7A7878;
+        }
+    }
+}
+
+#about {
+    // padding: 180px 0 165px;
+    margin-top: 20px;
+    background-image: url('../images/bg_about.png');
+    height: 547px;
+    background-size: cover;
+    padding: 130px 0 0 0;
+
+    h1 {
+        font-family: "Zilla Slab";
+        font-weight: bold;
+        font-size: 40px;
+        text-align: left;
+        color: #549494;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-family: "Rubik";
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 33px;
+        text-align: left;
+        color: #549494;
+
+    }
+}
+
+#best-seller {
+    margin-top: 100px;
+    background-image: url('../images/bg_bestseller.png');
+    height: 320px;
+    background-size: cover;
+    padding: 70px 0;
+    margin-bottom: 300px;
+
+    h1 {
+        font-family: "Zilla Slab";
+        font-weight: bold;
+        font-size: 40px;
+        text-align: left;
+        color: #549494;
+        margin-bottom: 50px;
+    }
+
+    .btn-all-menu {
+        padding: 10px 15px;
+        border-radius: 5px;
+        background: #707070;
+        color: #FFF6F6 !important;
+
+        &:hover {
+            background-color: #a4a5a7;
+            color: #fff;
+        }
+    }
+}
+
+#testimoni {
+    padding: 50px 0;
+
+    h1 {
+        font-family: "Zilla Slab";
+        font-weight: bold;
+        font-size: 40px;
+        text-align: center;
+        color: #549494;
+        margin-bottom: 70px;
+    }
+}
+
+.header-page {
+    padding: 50px 0 80px 0;
+    background-color: #F2E4E4;
+
+    .breadcrumb {
+        font-size: 14px;
+        background-color: #F2E4E4;
+    }
+
+    h1 {
+        font-family: "Zilla Slab";
+        font-weight: bold;
+        font-size: 35px;
+        text-align: left;
+        color: #707070;
+    }
+}
+
+.list-menu {
+    margin-top: -50px;
+}
+
+.btn-kategori-active {
+    border-radius: 5px;
+    background: #eff5ff;
+    padding: 8px 25px;
+    color: #7A7878;
+    font-size: 12px;
+    font-weight: 500;
+
+    &:hover {
+        background-color: #a4a5a7;
+        color: #fff;
+    }
+}
+
+.btn-kategori {
+    border-radius: 5px;
+    border: 1px solid #eff5ff;
+    padding: 8px 25px;
+    color: #7A7878;
+    font-size: 12px;
+
+    &:hover {
+        background-color: #a4a5a7;
+        color: #fff;
+    }
+}
+
+.isi-menu {
+    margin: 30px 0;
+}
+
+.card {
+    border-radius: 2px;
+    background: #fff;
+    border: 1px solid #eee;
+    transition: all .5s;
+
+}
+
+.menu-title {
+    font-family: Rubik;
+    font-weight: normal;
+    font-size: 18px;
+    text-align: left;
+    color: #549494;
+    text-decoration: none !important;
+
+}
+
+.menu-harga {
+    font-family: Rubik;
+    font-weight: 300;
+    font-size: 16px;
+    text-align: left;
+    color: #549494;
+
+}
+
+::placeholder {
+    font-size: 12px;
+}
+
+input {
+    font-size: 12px !important;
+}
+
+.login-form {
+    margin: 50px 0;
+}
+
+label {
+    font-size: 13px;
+}
+
+table {
+    font-size: 14px;
+}
+
+.dataTables_info {
+    font-size: 12px !important;
+}
+
+.paginate_button {
+    font-size: 12px !important;
+}
+
+.text-small {
+    font-size: 12px !important;
+}
