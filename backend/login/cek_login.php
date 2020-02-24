@@ -11,12 +11,14 @@ $query_user = mysqli_fetch_assoc($user);
 
 if ($query_user > 0) {
     if (password_verify($password, $query_user['user_password'])) {
+        $_SESSION['login'] = true;
         $_SESSION['id'] = $query_user['user_id'];
         $_SESSION['nama'] = $query_user['user_nama'];
         $_SESSION['username'] = $query_user['user_username'];
         $_SESSION['email'] = $query_user['user_email'];
         $_SESSION['role'] = $query_user['role_id'];
-        header('Location:../../user.php');
+        $_SESSION['profile'] = $query_user['user_foto'];
+        header('Location:../../dashboard.php');
     } else {
         $_SESSION['pesan'] = '
         <div class="alert alert-danger mb-2 alert-dismissible text-small " role="alert">

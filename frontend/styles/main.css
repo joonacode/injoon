@@ -29,6 +29,10 @@ body {
   color: #d1c1c1 !important;
 }
 
+.navbar-dark .navbar-toggler {
+  background-color: #555 !important;
+}
+
 .navbar-dark .btn-login {
   padding: 5px 30px;
   border-radius: 5px;
@@ -223,8 +227,8 @@ header .main:hover {
 
 .menu-title {
   font-family: Rubik;
-  font-weight: normal;
-  font-size: 18px;
+  font-weight: 500;
+  font-size: 16px;
   text-align: left;
   color: #549494;
   text-decoration: none !important;
@@ -233,7 +237,7 @@ header .main:hover {
 .menu-harga {
   font-family: Rubik;
   font-weight: 300;
-  font-size: 16px;
+  font-size: 14px;
   text-align: left;
   color: #549494;
 }

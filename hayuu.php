@@ -1,5 +1,9 @@
 <?php
 session_start();
+if (isset($_SESSION['login'])) {
+    //Halaman tujuam
+    header('Location:dashboard.php');
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -28,12 +32,14 @@ session_start();
                         <div class="text-center mt-4 mb-1">
                             <h5> Login <i class="fas fa-lock"></i></h5>
                         </div>
+                        <!-- Tampilan Pesan Jika Login -->
                         <?php if (isset($_SESSION['pesan'])) : ?>
                             <?= $_SESSION['pesan'] ?>
                         <?php
                             unset($_SESSION['pesan']);
                         endif;
                         ?>
+                        <!-- ------- -->
                         <form action="backend/login/cek_login.php" method="POST">
                             <div class="card-body">
                                 <div class="form-group">
