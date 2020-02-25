@@ -55,9 +55,17 @@ if ($_SESSION['login'] != true) {
 
                             </div>
                         </li>
-                        <li class="nav-item mx-md-2">
-                            <a href="menu.php" class="nav-link">Entri Order</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Order
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item text-small" target="_blank" href="menu.php">Entri Order</a>
+                                <a class="dropdown-item text-small" href="data_order.php">Data Order</a>
+
+                            </div>
                         </li>
+
 
                         <li class="nav-item mx-md-2">
                             <a href="#" class="nav-link">Entri Transaksi</a>
@@ -68,9 +76,17 @@ if ($_SESSION['login'] != true) {
                         <!-- Menu Role Waiter -->
                     <?php elseif ($_SESSION['role'] == 3) : ?>
 
-                        <li class="nav-item mx-md-2">
-                            <a href="menu.php" class="nav-link">Entri Order</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Order
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item text-small" target="_blank" href="menu.php">Entri Order</a>
+                                <a class="dropdown-item text-small" href="data_order.php">Data Order</a>
+
+                            </div>
                         </li>
+
 
                         <li class="nav-item mx-md-2">
                             <a href="#preview-game" class="nav-link">Laporan</a>

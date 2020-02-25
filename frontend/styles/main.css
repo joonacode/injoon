@@ -293,4 +293,24 @@ table th {
 .bg-cus-dark {
   background-color: #707070;
 }
+
+.card-header-menu {
+  height: 160px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-header-menu .gambar-menu {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  z-index: -1;
+}
+
+@media (max-width: 575px) {
+  .card-header-menu {
+    height: auto !important;
+  }
+}
 /*# sourceMappingURL=main.css.map */

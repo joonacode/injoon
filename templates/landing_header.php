@@ -59,79 +59,88 @@ require 'backend/config.php';
 
         </div>
     </nav>
-    <div class="modal fade" id="modalKeranjang" tabindex="-1" role="dialog" aria-labelledby="modalKeranjangLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" style="font-size:16px;" id="modalKeranjangLabel">Keranjang</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <?php
-                $query_order = mysqli_query($conn, "SELECT count(order_id) as no_order FROM tb_order");
-                $order = mysqli_fetch_assoc($query_order);
-                $no_order = $order['no_order'] + 1;
-                $no_meja = mysqli_query($conn, "SELECT * FROM tb_meja WHERE status != 1");
-                $list_pesanan = mysqli_query($conn, "SELECT * FROM tb_detail_order WHERE order_id = 'ORD000$no_order'");
-                ?>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label for="">Order No</label>
-                                <input type="text" class="form-control" readonly value="ORD000<?= $no_order ?>">
-                            </div>
-                            <div class="form-group">
-                                <label for="">No Meja</label>
-                                <select name="" class="form-control text-small" id="">
-                                    <option selected disabled>-- Pilih no meja --</option>
-                                    <?php foreach ($no_meja as $r_nmeja) : ?>
-                                        <option value="<?= $r_nmeja['meja_id'] ?>"><?= $r_nmeja['meja_id'] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Keterangan</label>
-                                <textarea name="keterangan" class="form-control text-small"></textarea>
+    <?php if (isset($_SESSION['login'])) : ?>
+
+        <div class="modal fade" id="modalKeranjang" tabindex="-1" role="dialog" aria-labelledby="modalKeranjangLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <form action="backend/order/tambah_order.php" method="POST">
+
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style="font-size:16px;" id="modalKeranjangLabel">Keranjang</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <?php
+                        $query_order = mysqli_query($conn, "SELECT count(order_id) as no_order FROM tb_order");
+                        $order = mysqli_fetch_assoc($query_order);
+                        $no_order = $order['no_order'] + 1;
+                        $no_meja = mysqli_query($conn, "SELECT * FROM tb_meja WHERE status != 1");
+                        $list_pesanan = mysqli_query($conn, "SELECT * FROM tb_detail_order WHERE order_id = 'ORD000$no_order' AND user_id = '$_SESSION[id]'");
+                        ?>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label for="">Order No</label>
+                                        <input type="text" class="form-control" name="order_id" readonly value="ORD000<?= $no_order ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">No Meja</label>
+                                        <select name="meja" class="form-control text-small" required>
+                                            <option selected disabled>-- Pilih no meja --</option>
+                                            <?php foreach ($no_meja as $r_nmeja) : ?>
+                                                <option value="<?= $r_nmeja['meja_id'] ?>"><?= $r_nmeja['meja_id'] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Keterangan</label>
+                                        <textarea name="keterangan" class="form-control text-small"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <p>List Pesanan</p>
+                                    <div class="table-responsive" style="height:200px;overflow-y:scroll;">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th width="10">No</th>
+                                                    <th>Nama</th>
+                                                    <th width="200">Deskripsi</th>
+                                                    <th width="10">Jumlah</th>
+                                                    <th width="10">Option</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $no = 1;
+                                                foreach ($list_pesanan as $list_row) :
+                                                    $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan WHERE masakan_id = '$list_row[masakan_id]' ");
+                                                    $q_masakan = mysqli_fetch_assoc($masakan);
+                                                ?>
+                                                    <tr>
+                                                        <td><?= $no ?></td>
+                                                        <td><?= $q_masakan['masakan_nama'] ?></td>
+                                                        <td><?= $list_row['dorder_keterangan'] ?></td>
+                                                        <td><?= $list_row['dorder_jumlah'] ?></td>
+                                                        <td><a href="backend/order/hapus_pesan.php?id=<?= $list_row['dorder_id'] ?>" onclick="return confirm('Apakah anda yakin ?')" class="btn btn-sm btn-danger text-small"><i class="fas fa-trash"></i></a></td>
+                                                    </tr>
+                                                <?php $no++;
+                                                endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-7">
-                            <p>List Pesanan</p>
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Nama</th>
-                                            <th>Jumlah</th>
-                                            <th>Option</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php $no = 1;
-                                        foreach ($list_pesanan as $list_row) :
-                                            $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan WHERE masakan_id = '$list_row[masakan_id]'");
-                                            $q_masakan = mysqli_fetch_assoc($masakan);
-                                        ?>
-                                            <tr>
-                                                <td><?= $no ?></td>
-                                                <td><?= $q_masakan['masakan_nama'] ?></td>
-                                                <td><?= $list_row['dorder_jumlah'] ?></td>
-                                                <td><a href="backend/order/hapus_pesan.php?id=<?= $list_row['dorder_id'] ?>" onclick="return confirm('Apakah anda yakin ?')" class="btn btn-sm btn-danger text-small"><i class="fas fa-trash"></i></a></td>
-                                            </tr>
-                                        <?php $no++;
-                                        endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary text-small" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary text-small">Proses</button>
                         </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary text-small" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary text-small">Simpan</button>
-                </div>
+                </form>
+
             </div>
         </div>
-    </div>
+        </div>
+    <?php endif; ?>
