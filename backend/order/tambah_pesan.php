@@ -14,6 +14,10 @@ $a_no = 'ORD000' . $no_order;
 // var_dump($a_no);
 // die;
 
+$q_masakan = mysqli_query($conn, "SELECT * FROM tb_masakan WHERE masakan_id = '$masakan_id'");
+$masakan_harga = mysqli_fetch_assoc($q_masakan);
+$hartot = $masakan_harga['masakan_harga'] * $jumlah;
+
 $validasi_dupllikat_menu = mysqli_query($conn, "SELECT * FROM tb_detail_order WHERE masakan_id = '$masakan_id' AND check_available = '$no_order'");
 $q_validasi = mysqli_fetch_assoc($validasi_dupllikat_menu);
 
@@ -28,7 +32,7 @@ if ($q_validasi > 0) {
     header('Location:../../menu.php');
     return false;
 } else {
-    $queryTambah = "INSERT INTO tb_detail_order VALUES('', '$no_order', '$a_no', '$masakan_id',  '$keterangan', '$jumlah', '$user_id', 0)";
+    $queryTambah = "INSERT INTO tb_detail_order VALUES('', '$no_order', '$a_no', '$masakan_id',  '$keterangan', '$jumlah', '$hartot', '$user_id', 0)";
     $query = mysqli_query($conn, $queryTambah);
 
     if ($query > 0) {

@@ -42,10 +42,23 @@ body {
   font-size: 14px;
 }
 
+@media (max-width: 991px) {
+  header {
+    background-image: url("../images/bgdua.png") !important;
+    margin-top: 0 !important;
+    text-align: center;
+    height: 570px !important;
+    padding: 120px 0 100px 0 !important;
+  }
+  h1 {
+    margin-bottom: 20px;
+  }
+}
+
 header {
-  padding: 180px 0 165px;
   margin-top: -70px;
   background-image: url("../images/bg_head.png");
+  padding: 180px 0 100px;
   height: 650px;
   background-size: cover;
 }
@@ -60,7 +73,6 @@ header p {
   font-weight: 300;
   font-size: 18px;
   line-height: 33px;
-  text-align: left;
   color: #549494;
 }
 
@@ -68,7 +80,6 @@ header h1 {
   font-family: "Zilla Slab";
   font-weight: bold;
   font-size: 50px;
-  text-align: left;
   color: #549494;
 }
 
@@ -98,16 +109,14 @@ header .main:hover {
 #about {
   margin-top: 20px;
   background-image: url("../images/bg_about.png");
-  height: 547px;
   background-size: cover;
-  padding: 130px 0 0 0;
+  padding: 130px 0 130px 0;
 }
 
 #about h1 {
   font-family: "Zilla Slab";
   font-weight: bold;
   font-size: 40px;
-  text-align: left;
   color: #549494;
   margin-bottom: 20px;
 }
@@ -117,17 +126,22 @@ header .main:hover {
   font-weight: 300;
   font-size: 16px;
   line-height: 33px;
-  text-align: left;
   color: #549494;
 }
 
-#best-seller {
-  margin-top: 100px;
-  background-image: url("../images/bg_bestseller.png");
+.bg-best-seller {
+  margin-top: 80px;
+  background-image: url("../images/bgey.png");
   height: 320px;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
   background-size: cover;
-  padding: 70px 0;
-  margin-bottom: 300px;
+}
+
+#best-seller {
+  margin-top: -250px;
+  margin-bottom: 40px;
 }
 
 #best-seller h1 {
@@ -312,5 +326,77 @@ table th {
   .card-header-menu {
     height: auto !important;
   }
+}
+
+@media (max-width: 767px) {
+  .stars {
+    text-align: center !important;
+  }
+  .testimoni-desk {
+    text-align: center !important;
+  }
+  #about {
+    background-image: none !important;
+  }
+  #about h1 {
+    text-align: center !important;
+    margin-bottom: 40px;
+  }
+  #about p {
+    text-align: center !important;
+    margin-bottom: 20px;
+  }
+  .its-hr {
+    border-style: dotted none none none;
+    border-color: #eaf6f6;
+    border-width: 7px;
+    width: 10%;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 991px) {
+  .section-about img {
+    display: none !important;
+  }
+}
+
+.section-contact {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 130px 0 130px 0;
+  background-image: url("../images/bg-con.png");
+  padding: 130px 0 130px 0;
+}
+
+.section-contact h1 {
+  font-family: "Zilla Slab";
+  font-weight: bold;
+  font-size: 40px;
+  color: #549494;
+  margin-bottom: 30px;
+}
+
+.section-contact p {
+  font-family: "Rubik";
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 33px;
+  color: #549494;
+}
+
+.section-contact .c-form {
+  -webkit-box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.1);
+          box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 10px;
+}
+
+.section-contact input {
+  border: 1px solid #f8ebeb;
+}
+
+.section-contact textarea {
+  border: 1px solid #f8ebeb;
 }
 /*# sourceMappingURL=main.css.map */

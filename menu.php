@@ -1,8 +1,14 @@
 <?php
 
 require 'templates/landing_header.php';
-
-$masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DESC");
+if (isset($_POST['q'])) {
+    $q = $_POST['q'];
+    $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan WHERE masakan_nama LIKE '%$q%' ORDER BY masakan_id DESC");
+    $cek_ada = mysqli_num_rows($masakan);
+} else {
+    $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DESC");
+    $cek_ada = mysqli_num_rows($masakan);
+}
 
 ?>
 <!-- Header -->
@@ -14,7 +20,14 @@ $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DES
                 <li class="breadcrumb-item active" aria-current="page">Menu</li>
             </ol>
         </nav>
-        <h1>List Semua Menu</h1>
+        <?php if (isset($_GET['kategori'])) : 
+            $q_kat = mysqli_query($conn, "SELECT * FROM tb_kategori WHERE kategori_id = '$_GET[kategori]'");
+            $kat = mysqli_fetch_assoc($q_kat);
+            ?>
+            <h1><?= $kat['kategori_nama'] ?></h1>
+        <?php else : ?>
+            <h1>List Semua Menu</h1>
+        <?php endif; ?>
     </div>
 </section>
 
@@ -49,9 +62,12 @@ $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DES
                         <?php endforeach; ?>
                     </div>
                     <div class="col-md-3">
-                        <div class="form-group my-1">
-                            <input type="text" class="form-control" placeholder="Search">
-                        </div>
+                        <form method="POST">
+                            <div class="input-group my-1">
+                                <input type="text" name="q" class="form-control" placeholder="Cari menu...">
+                                <button class="input-group-append btn btn-sm btn-primary text-small"><i class="fas fa-search"></i></button>
+                            </div>
+                        </form>
                     </div>
 
                 </div>
@@ -65,9 +81,23 @@ $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DES
     <div class="container">
         <div class="row">
             <?php if (isset($_GET['kategori'])) :
-                $masakan_kategori = mysqli_query($conn, "SELECT * FROM tb_masakan WHERE kategori_id = '$_GET[kategori]' ORDER BY masakan_id DESC");
+                if (isset($_POST['q'])) {
+                    $qn = $_POST['q'];
+                    $masakan_kategori = mysqli_query($conn, "SELECT * FROM tb_masakan WHERE kategori_id = '$_GET[kategori]' AND masakan_nama LIKE '%$qn%' ORDER BY masakan_id DESC");
+                    $cek_available = mysqli_num_rows($masakan_kategori);
+                } else {
+                    $masakan_kategori = mysqli_query($conn, "SELECT * FROM tb_masakan WHERE kategori_id = '$_GET[kategori]' ORDER BY masakan_id DESC");
+                    $cek_available = mysqli_num_rows($masakan_kategori);
+                }
             ?>
+                <?php if ($cek_available == null) : ?>
+                    <div class="col-md-6 mx-auto mt-5">
 
+                        <h5 class="text-center">OPPS MENU YANG ANDA CARI TIDAK ADA</h5>
+                        <img src="frontend/images/empty.png" class="img-fluid" alt="">
+                        <a href="menu.php?kategori=<?= $_GET['kategori'] ?>" class="btn btn-sm btn-outline-primary btn-block text-center">Kembali <i class="fas fa-undo"></i></a>
+                    </div>
+                <?php endif; ?>
                 <?php foreach ($masakan_kategori as $row) : ?>
                     <div class="col-md-4 col-lg-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-duration="500">
                         <div class="card">
@@ -95,6 +125,14 @@ $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DES
                     </div>
                 <?php endforeach; ?>
             <?php else : ?>
+                <?php if ($cek_ada == null) : ?>
+                    <div class="col-md-6 mx-auto mt-5">
+
+                        <h5 class="text-center">OPPS MENU YANG ANDA CARI TIDAK ADA</h5>
+                        <img src="frontend/images/empty.png" class="img-fluid" alt="">
+                        <a href="menu.php" class="btn btn-sm btn-outline-primary btn-block text-center">Kembali <i class="fas fa-undo"></i></a>
+                    </div>
+                <?php endif; ?>
                 <?php foreach ($masakan as $row) : ?>
                     <div class="col-md-4 col-lg-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-duration="500">
                         <div class="card">

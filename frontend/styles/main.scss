@@ -55,10 +55,26 @@ $hover-cus-dark: #eff5ff;
 }
 
 //Header
+
+
+@media (max-width: 991px) {
+    header {
+        background-image: url('../images/bgdua.png') !important;
+        margin-top: 0 !important;
+        text-align: center;
+        height: 570px !important;
+        padding: 120px 0 100px 0 !important;
+    }
+
+    h1 {
+        margin-bottom: 20px;
+    }
+}
+
 header {
-    padding: 180px 0 165px;
     margin-top: -70px;
     background-image: url('../images/bg_head.png');
+    padding: 180px 0 100px;
     height: 650px;
     background-size: cover;
 
@@ -72,7 +88,6 @@ header {
         font-weight: 300;
         font-size: 18px;
         line-height: 33px;
-        text-align: left;
         color: #549494;
 
     }
@@ -81,7 +96,6 @@ header {
         font-family: "Zilla Slab";
         font-weight: bold;
         font-size: 50px;
-        text-align: left;
         color: #549494;
 
     }
@@ -114,15 +128,13 @@ header {
     // padding: 180px 0 165px;
     margin-top: 20px;
     background-image: url('../images/bg_about.png');
-    height: 547px;
     background-size: cover;
-    padding: 130px 0 0 0;
+    padding: 130px 0 130px 0;
 
     h1 {
         font-family: "Zilla Slab";
         font-weight: bold;
         font-size: 40px;
-        text-align: left;
         color: #549494;
         margin-bottom: 20px;
     }
@@ -132,19 +144,27 @@ header {
         font-weight: 300;
         font-size: 16px;
         line-height: 33px;
-        text-align: left;
         color: #549494;
 
     }
 }
 
-#best-seller {
-    margin-top: 100px;
-    background-image: url('../images/bg_bestseller.png');
+.bg-best-seller {
+    margin-top: 80px;
+    background-image: url('../images/bgey.png');
+    // background-size: cover;
+
     height: 320px;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
     background-size: cover;
-    padding: 70px 0;
-    margin-bottom: 300px;
+}
+
+#best-seller {
+    margin-top: -250px;
+
+    margin-bottom: 40px;
 
     h1 {
         font-family: "Zilla Slab";
@@ -320,4 +340,87 @@ table {
     .card-header-menu {
         height: auto !important;
     }
+}
+
+@media (max-width: 767px) {
+    .stars {
+        text-align: center !important;
+    }
+
+    .testimoni-desk {
+        text-align: center !important;
+
+    }
+
+    #about {
+        background-image: none !important;
+
+        h1 {
+            text-align: center !important;
+            margin-bottom: 40px;
+        }
+
+        p {
+            text-align: center !important;
+            margin-bottom: 20px;
+
+        }
+
+    }
+
+    .its-hr {
+        border-style: dotted none none none;
+        border-color: #eaf6f6;
+        border-width: 7px;
+        width: 10%;
+        margin: 0 auto;
+    }
+
+}
+
+@media (max-width: 991px) {
+    .section-about {
+        img {
+            display: none !important;
+        }
+    }
+}
+
+.section-contact {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 130px 0 130px 0;
+    background-image: url('../images/bg-con.png');
+    padding: 130px 0 130px 0;
+
+    h1 {
+        font-family: "Zilla Slab";
+        font-weight: bold;
+        font-size: 40px;
+        color: #549494;
+        margin-bottom: 30px;
+    }
+
+    p {
+        font-family: "Rubik";
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 33px;
+        color: #549494;
+    }
+
+    .c-form {
+        box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.1);
+        border: none;
+        border-radius: 10px;
+    }
+
+    input {
+        border: 1px solid rgb(248, 235, 235);
+    }
+
+    textarea {
+        border: 1px solid rgb(248, 235, 235);
+    }
+
 }

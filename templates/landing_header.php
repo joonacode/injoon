@@ -78,10 +78,13 @@ require 'backend/config.php';
                         $no_order = $order['no_order'] + 1;
                         $no_meja = mysqli_query($conn, "SELECT * FROM tb_meja WHERE status != 1");
                         $list_pesanan = mysqli_query($conn, "SELECT * FROM tb_detail_order WHERE order_id = 'ORD000$no_order' AND user_id = '$_SESSION[id]'");
+                        $nono = 'ORD000' . $no_order;
+                        $q_hartot = mysqli_query($conn, "SELECT sum(dorder_hartot) as hartot FROM tb_detail_order WHERE order_id = '$nono'");
+                        $hartot = mysqli_fetch_assoc($q_hartot);
                         ?>
                         <div class="modal-body">
                             <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="">Order No</label>
                                         <input type="text" class="form-control" name="order_id" readonly value="ORD000<?= $no_order ?>" required>
@@ -100,16 +103,18 @@ require 'backend/config.php';
                                         <textarea name="keterangan" class="form-control text-small"></textarea>
                                     </div>
                                 </div>
-                                <div class="col-md-7">
+                                <div class="col-md-8">
                                     <p>List Pesanan</p>
-                                    <div class="table-responsive" style="height:200px;overflow-y:scroll;">
+                                    <div class="table-responsive" style="height:400px;overflow-y:scroll;">
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th width="10">No</th>
                                                     <th>Nama</th>
                                                     <th width="200">Deskripsi</th>
+                                                    <th width="50">Harga</th>
                                                     <th width="10">Jumlah</th>
+                                                    <th width="50">Harga Akhir</th>
                                                     <th width="10">Option</th>
                                                 </tr>
                                             </thead>
@@ -123,11 +128,18 @@ require 'backend/config.php';
                                                         <td><?= $no ?></td>
                                                         <td><?= $q_masakan['masakan_nama'] ?></td>
                                                         <td><?= $list_row['dorder_keterangan'] ?></td>
+                                                        <td><?= $q_masakan['masakan_harga'] ?></td>
                                                         <td><?= $list_row['dorder_jumlah'] ?></td>
+                                                        <td><?= $q_masakan['masakan_harga'] * $list_row['dorder_jumlah'] ?></td>
                                                         <td><a href="backend/order/hapus_pesan.php?id=<?= $list_row['dorder_id'] ?>" onclick="return confirm('Apakah anda yakin ?')" class="btn btn-sm btn-danger text-small"><i class="fas fa-trash"></i></a></td>
                                                     </tr>
                                                 <?php $no++;
                                                 endforeach; ?>
+                                                <tr>
+                                                    <td colspan="7">
+                                                        Total Harga : Rp. <?= $hartot['hartot'] ?>
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>

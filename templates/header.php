@@ -68,10 +68,10 @@ if ($_SESSION['login'] != true) {
 
 
                         <li class="nav-item mx-md-2">
-                            <a href="#" class="nav-link">Entri Transaksi</a>
+                            <a href="entri_transaksi.php" class="nav-link">Entri Transaksi</a>
                         </li>
                         <li class="nav-item mx-md-2">
-                            <a href="#preview-game" class="nav-link">Laporan</a>
+                            <a href="laporan.php" class="nav-link">Laporan</a>
                         </li>
                         <!-- Menu Role Waiter -->
                     <?php elseif ($_SESSION['role'] == 3) : ?>
@@ -89,21 +89,21 @@ if ($_SESSION['login'] != true) {
 
 
                         <li class="nav-item mx-md-2">
-                            <a href="#preview-game" class="nav-link">Laporan</a>
+                            <a href="laporan.php" class="nav-link">Laporan</a>
                         </li>
 
                         <!-- Menu Role Kasir -->
                     <?php elseif ($_SESSION['role'] == 4) : ?>
                         <li class="nav-item mx-md-2">
-                            <a href="#preview-game" class="nav-link">Entri Transaksi</a>
+                            <a href="entri_transaksi.php" class="nav-link">Entri Transaksi</a>
                         </li>
                         <li class="nav-item mx-md-2">
-                            <a href="#preview-game" class="nav-link">Laporan</a>
+                            <a href="laporan.php" class="nav-link">Laporan</a>
                         </li>
                         <!-- Menu Role Manager -->
                     <?php elseif ($_SESSION['role'] == 1) : ?>
                         <li class="nav-item mx-md-2">
-                            <a href="#preview-game" class="nav-link">Laporan</a>
+                            <a href="laporan.php" class="nav-link">Laporan</a>
                         </li>
                     <?php endif; ?>
                 </ul>

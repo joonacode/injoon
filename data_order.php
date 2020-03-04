@@ -1,7 +1,7 @@
 <?php
 
 include 'templates/header.php';
-$order = mysqli_query($conn, "SELECT * FROM tb_order ORDER BY order_id DESC");
+$order = mysqli_query($conn, "SELECT * FROM tb_order WHERE order_status = 0 ORDER BY order_id DESC");
 
 
 ?>
@@ -47,9 +47,8 @@ $order = mysqli_query($conn, "SELECT * FROM tb_order ORDER BY order_id DESC");
                                                 <th>No Order</th>
                                                 <th>No Meja</th>
                                                 <th>Tanggal Order</th>
-                                                <th>Waiter</th>
+                                                <th>Total Bayar</th>
                                                 <th>Keterangan</th>
-                                                <th>Status</th>
                                                 <th>Option</th>
                                             </tr>
 
@@ -59,27 +58,23 @@ $order = mysqli_query($conn, "SELECT * FROM tb_order ORDER BY order_id DESC");
                                             foreach ($order as $orow) :
                                                 $user_query =  mysqli_query($conn, "SELECT * FROM tb_user WHERE user_id = '$orow[user_id]'");
                                                 $usr = mysqli_fetch_assoc($user_query);
+                                                $q_hartot = mysqli_query($conn, "SELECT sum(dorder_hartot) as hartot FROM tb_detail_order WHERE order_id = '$orow[order_id]'");
+                                                $hartot = mysqli_fetch_assoc($q_hartot);
                                             ?>
                                                 <tr class="text-small">
                                                     <td><?= $i; ?></td>
                                                     <td><?= $orow['order_id'] ?></td>
                                                     <td><?= $orow['order_meja'] ?></td>
-                                                    <td><?= date('d-m-Y', $orow['order_tanggal']) ?></td>
-                                                    <td><?= $usr['user_nama'] ?></td>
+                                                    <td><?= date('d-m-Y H:i', $orow['order_tanggal']) ?></td>
+                                                    <td>Rp. <?= $hartot['hartot'] ?></td>
                                                     <td><?= $orow['order_keterangan'] ?></td>
+
                                                     <td>
-                                                        <?php if ($orow['order_status'] == 0) : ?>
-                                                            <button class="btn btn-sm btn-danger text-small ">Dipesan</button>
-                                                        <?php elseif ($orow['order_status'] == 1) : ?>
-                                                            <button class="btn btn-sm btn-warning text-white text-small ">Diterima</button>
-                                                        <?php elseif ($orow['order_status'] == 2) : ?>
-                                                            <button class="btn btn-sm btn-success text-small ">Dibayar</button>
-                                                        <?php endif; ?>
-                                                    </td>
-                                                    <td>
-                                                        <a href="backend/order/kirim_order.php?id=<?= $orow['order_id'] ?>" class="btn btn-success btn-sm text-small" title="Kirim Ke Pelanggan" onclick="return confirm('Pesanan akan dikirim, apakah anda yakin ?')"><i class="fas fa-check"></i></a>
                                                         <a href="backend/user/hapus_user.php?id=<?= $orow['user_id'] ?>" class="btn btn-danger btn-sm text-small" onclick="return confirm('Yakin ingin menghapus data ini ?')"><i class="fas fa-trash"></i></a>
                                                         <button type="button" title="Detail Order" class="btn btn-sm btn-secondary text-small text-white" data-toggle="modal" data-target="#detailOrder_<?= $orow['order_id'] ?>"><i class="fas fa-eye"></i></button>
+                                                        <?php if ($orow['order_status'] == 1) : ?>
+                                                            <a href="print_struk.php?order_id=<?= $orow['order_id'] ?>" target="_blank" class="btn btn-warning text-white btn-sm text-small"><i class="fas fa-print"></i></a>
+                                                        <?php endif; ?>
                                                     </td>
                                                 </tr>
                                             <?php $i++;
@@ -168,7 +163,7 @@ $order = mysqli_query($conn, "SELECT * FROM tb_order ORDER BY order_id DESC");
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <b class="modal-title">Detail Order</b>
+                    <b class="modal-title">List Pesanan</b>
                     <button type="button" class="close" data-dismiss="modal">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -176,10 +171,11 @@ $order = mysqli_query($conn, "SELECT * FROM tb_order ORDER BY order_id DESC");
                 <div class="modal-body">
                     <?php
                     $detail_order = mysqli_query($conn, "SELECT * FROM tb_detail_order WHERE order_id = '$detRow[order_id]'");
+                    $q_hartot = mysqli_query($conn, "SELECT sum(dorder_hartot) as hartot FROM tb_detail_order WHERE order_id = '$detRow[order_id]'");
+                    $hartot = mysqli_fetch_assoc($q_hartot);
                     ?>
                     <div class="row">
                         <div class="col-md-12">
-                            <p>List Pesanan</p>
                             <div class="table-responsive" style="height:400px;overflow-y:scroll;">
                                 <table class="table table-bordered">
                                     <thead>
@@ -187,8 +183,9 @@ $order = mysqli_query($conn, "SELECT * FROM tb_order ORDER BY order_id DESC");
                                             <th width="10">No</th>
                                             <th>Nama</th>
                                             <th width="200">Deskripsi</th>
+                                            <th>Harga</th>
                                             <th width="10">Jumlah</th>
-                                            <th width="10">Option</th>
+                                            <th>Harga Akhir</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -196,16 +193,23 @@ $order = mysqli_query($conn, "SELECT * FROM tb_order ORDER BY order_id DESC");
                                         foreach ($detail_order as $list_row) :
                                             $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan WHERE masakan_id = '$list_row[masakan_id]' ");
                                             $q_masakan = mysqli_fetch_assoc($masakan);
+
                                         ?>
                                             <tr>
                                                 <td><?= $no ?></td>
                                                 <td><?= $q_masakan['masakan_nama'] ?></td>
                                                 <td><?= $list_row['dorder_keterangan'] ?></td>
+                                                <td><?= $q_masakan['masakan_harga'] ?></td>
                                                 <td><?= $list_row['dorder_jumlah'] ?></td>
-                                                <td><a href="backend/order/hapus_pesan.php?id=<?= $list_row['dorder_id'] ?>" onclick="return confirm('Apakah anda yakin ?')" class="btn btn-sm btn-danger text-small"><i class="fas fa-trash"></i></a></td>
+                                                <td><?= $q_masakan['masakan_harga'] * $list_row['dorder_jumlah'] ?></td>
                                             </tr>
                                         <?php $no++;
                                         endforeach; ?>
+                                        <tr>
+                                            <td colspan="7">
+                                                Total Harga : Rp. <?= $hartot['hartot'] ?>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
