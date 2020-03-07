@@ -1,12 +1,16 @@
 <?php
 
-require 'templates/landing_header.php';
+require 'templates/landing_header2.php';
+
 if (isset($_POST['q'])) {
     $q = $_POST['q'];
     $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan WHERE masakan_nama LIKE '%$q%' ORDER BY masakan_id DESC");
     $cek_ada = mysqli_num_rows($masakan);
 } else {
-    $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DESC");
+    $halaman = (isset($_GET['h']) ? $_GET['h'] : 1);
+    $limit = 12;
+    $mulai = ($halaman > 1) ? ($halaman * $limit) - $limit : 0;
+    $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DESC LIMIT $mulai, $limit");
     $cek_ada = mysqli_num_rows($masakan);
 }
 
@@ -17,13 +21,21 @@ if (isset($_POST['q'])) {
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#" class="text-decoration-none">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Menu</li>
+                <li class="breadcrumb-item"><a href="menu.php" class="text-decoration-none">Menu</a></li>
+                <?php if (isset($_GET['kategori'])) :
+                    $q_kat = mysqli_query($conn, "SELECT * FROM tb_kategori WHERE kategori_id = '$_GET[kategori]'");
+                    $kat = mysqli_fetch_assoc($q_kat);
+                ?>
+                    <li class="breadcrumb-item active" aria-current="page"><?= $kat['kategori_nama'] ?> <?= isset($_POST['q']) ? ' : ' . $_POST['q'] : '' ?></li>
+                <?php else : ?>
+                    <li class="breadcrumb-item active" aria-current="page">Semua menu <?= isset($_POST['q']) ? ' : ' . $_POST['q'] : '' ?></li>
+                <?php endif; ?>
             </ol>
         </nav>
-        <?php if (isset($_GET['kategori'])) : 
+        <?php if (isset($_GET['kategori'])) :
             $q_kat = mysqli_query($conn, "SELECT * FROM tb_kategori WHERE kategori_id = '$_GET[kategori]'");
             $kat = mysqli_fetch_assoc($q_kat);
-            ?>
+        ?>
             <h1><?= $kat['kategori_nama'] ?></h1>
         <?php else : ?>
             <h1>List Semua Menu</h1>
@@ -33,7 +45,7 @@ if (isset($_POST['q'])) {
 
 <section class="list-menu">
     <div class="container">
-        <div class="card">
+        <div class="card shadow-sm border-0">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -44,7 +56,7 @@ if (isset($_POST['q'])) {
                         endif;
                         ?>
                     </div>
-                    <div class="col-9">
+                    <div class="col-md-9">
                         <?php if (isset($_GET['kategori'])) : ?>
                             <a href="menu.php" class="btn btn-sm my-1 btn-kategori">Semua</a>
                         <?php else : ?>
@@ -79,14 +91,17 @@ if (isset($_POST['q'])) {
 
 <section class="isi-menu">
     <div class="container">
-        <div class="row">
+        <div class="row mb-3">
             <?php if (isset($_GET['kategori'])) :
                 if (isset($_POST['q'])) {
                     $qn = $_POST['q'];
                     $masakan_kategori = mysqli_query($conn, "SELECT * FROM tb_masakan WHERE kategori_id = '$_GET[kategori]' AND masakan_nama LIKE '%$qn%' ORDER BY masakan_id DESC");
                     $cek_available = mysqli_num_rows($masakan_kategori);
                 } else {
-                    $masakan_kategori = mysqli_query($conn, "SELECT * FROM tb_masakan WHERE kategori_id = '$_GET[kategori]' ORDER BY masakan_id DESC");
+                    $halaman = (isset($_GET['h']) ? $_GET['h'] : 1);
+                    $limit = 2;
+                    $mulai = ($halaman > 1) ? ($halaman * $limit) - $limit : 0;
+                    $masakan_kategori = mysqli_query($conn, "SELECT * FROM tb_masakan WHERE kategori_id = '$_GET[kategori]' ORDER BY masakan_id DESC LIMIT $mulai, $limit");
                     $cek_available = mysqli_num_rows($masakan_kategori);
                 }
             ?>
@@ -100,7 +115,7 @@ if (isset($_POST['q'])) {
                 <?php endif; ?>
                 <?php foreach ($masakan_kategori as $row) : ?>
                     <div class="col-md-4 col-lg-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-duration="500">
-                        <div class="card">
+                        <div class="card shadow-sm border-0">
                             <div class="card-header-menu">
                                 <img src="frontend/images/masakan/<?= $row['masakan_gambar'] ?>" class="card-img-top gambar-menu" alt="...">
                             </div>
@@ -134,8 +149,8 @@ if (isset($_POST['q'])) {
                     </div>
                 <?php endif; ?>
                 <?php foreach ($masakan as $row) : ?>
-                    <div class="col-md-4 col-lg-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-duration="500">
-                        <div class="card">
+                    <div class="col-md-4 col-lg-3 col-sm-6 mb-4 col-me" data-aos="fade-up" data-aos-duration="500">
+                        <div class="card shadow-sm border-0">
                             <div class="card-header-menu">
                                 <img src="frontend/images/masakan/<?= $row['masakan_gambar'] ?>" class="card-img-top gambar-menu" alt="...">
                             </div>
@@ -144,7 +159,14 @@ if (isset($_POST['q'])) {
                                     <?= $row['masakan_nama'] ?>
                                 </a>
                                 <p class="menu-harga mt-1">
-                                    Rp. <?= $row['masakan_harga'] ?>
+                                    <?php if ($row['masakan_ds'] == 1) : ?>
+
+                                        <span class="text-danger harga-diskon-br">Rp. <?= $row['masakan_harga'] ?></span>
+                                        <span style="font-size:10px;"><s>Rp. <?= $row['masakan_hsd'] ?></s></span>
+                                        <span class="badge badge-success float-right">- <?= $row['masakan_diskon'] ?>%</span>
+                                    <?php else : ?>
+                                        Rp. <?= $row['masakan_harga'] ?>
+                                    <?php endif; ?>
                                 </p>
                                 <?php if (isset($_SESSION['login'])) : ?>
                                     <?php if ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) : ?>
@@ -162,6 +184,44 @@ if (isset($_POST['q'])) {
             <?php endif; ?>
 
         </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <?php if (isset($_GET['kategori'])) : ?>
+                    <?php if (isset($_POST['q'])) : ?>
+
+                    <?php else : ?>
+                        <?php
+                        $jumlah_masakan = mysqli_query($conn, "SELECT COUNT(masakan_id) as jumlah_menu FROM tb_masakan WHERE kategori_id = '$_GET[kategori]'");
+                        $get_jumlah = mysqli_fetch_assoc($jumlah_masakan);
+                        $jumlah_halaman = ceil($get_jumlah['jumlah_menu'] / $limit);
+                        $jumlah_number = 10;
+                        for ($i = 1; $i <= $jumlah_halaman; $i++) :
+                            $link_active = ($halaman == $i) ? 'active' : '';
+                        ?>
+                            <li class="page-item <?= $halaman == $i ? 'active' : '' ?>"><a class="page-link text-small" href="menu.php?kategori=<?= $_GET['kategori'] ?>&h=<?= $i ?>"><?= $i ?></a></li>
+                        <?php endfor; ?>
+                    <?php endif; ?>
+
+                <?php else : ?>
+                    <?php if (isset($_POST['q'])) : ?>
+
+                    <?php else : ?>
+                        <?php
+                        $jumlah_masakan = mysqli_query($conn, "SELECT COUNT(masakan_id) as jumlah_menu FROM tb_masakan");
+                        $get_jumlah = mysqli_fetch_assoc($jumlah_masakan);
+                        $jumlah_halaman = ceil($get_jumlah['jumlah_menu'] / $limit);
+                        $jumlah_number = 10;
+                        for ($i = 1; $i <= $jumlah_halaman; $i++) :
+                            $link_active = ($halaman == $i) ? 'active' : '';
+                        ?>
+                            <li class="page-item <?= $halaman == $i ? 'active' : '' ?>"><a class="page-link text-small" href="menu.php?h=<?= $i ?>"><?= $i ?></a></li>
+                        <?php endfor; ?>
+                    <?php endif; ?>
+
+                <?php endif; ?>
+
+            </ul>
+        </nav>
     </div>
 </section>
 
@@ -215,13 +275,4 @@ if (isset($_POST['q'])) {
     </div>
 <?php endforeach; ?>
 
-<script src="frontend/libraries/jquery/jquery-3.4.1.min.js"></script>
-<script src="frontend/libraries/bootstrap/js/bootstrap.js"></script>
-<script src="frontend/libraries/aos/aos.js"></script>
-<script src="frontend/libraries/owlcarousel/owl.carousel.min.js"></script>
-<script>
-    AOS.init();
-</script>
-</body>
-
-</html>
+<?php require 'templates/footer.php' ?>

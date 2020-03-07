@@ -21,7 +21,7 @@ $order = mysqli_query($conn, "SELECT * FROM tb_order WHERE order_status = 0 ORDE
 
 <section class="list-menu">
     <div class="container">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -70,7 +70,7 @@ $order = mysqli_query($conn, "SELECT * FROM tb_order WHERE order_status = 0 ORDE
                                                     <td><?= $orow['order_keterangan'] ?></td>
 
                                                     <td>
-                                                        <a href="backend/user/hapus_user.php?id=<?= $orow['user_id'] ?>" class="btn btn-danger btn-sm text-small" onclick="return confirm('Yakin ingin menghapus data ini ?')"><i class="fas fa-trash"></i></a>
+                                                        <a href="backend/order/hapus_order.php?id=<?= $orow['order_id'] ?>" class="btn btn-danger btn-sm text-small" onclick="return confirm('Yakin ingin menghapus data ini ?')"><i class="fas fa-trash"></i></a>
                                                         <button type="button" title="Detail Order" class="btn btn-sm btn-secondary text-small text-white" data-toggle="modal" data-target="#detailOrder_<?= $orow['order_id'] ?>"><i class="fas fa-eye"></i></button>
                                                         <?php if ($orow['order_status'] == 1) : ?>
                                                             <a href="print_struk.php?order_id=<?= $orow['order_id'] ?>" target="_blank" class="btn btn-warning text-white btn-sm text-small"><i class="fas fa-print"></i></a>
@@ -220,6 +220,7 @@ $order = mysqli_query($conn, "SELECT * FROM tb_order WHERE order_status = 0 ORDE
         </div>
     </div>
 <?php endforeach; ?>
+<?php require 'templates/footer_text.php' ?>
 
 <script src="frontend/libraries/jquery/jquery-3.4.1.min.js"></script>
 <script src="frontend/libraries/bootstrap/js/bootstrap.js"></script>

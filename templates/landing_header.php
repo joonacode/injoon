@@ -1,7 +1,8 @@
 <?php
 session_start();
 require 'backend/config.php';
-
+$q_pengaturan = mysqli_query($conn, "SELECT * FROM tb_pengaturan WHERE pengaturan_id = 1");
+$pengaturan = mysqli_fetch_assoc($q_pengaturan);
 ?>
 <!doctype html>
 <html lang="en">
@@ -9,7 +10,7 @@ require 'backend/config.php';
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="frontend/images/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="frontend/images/<?= $pengaturan['pengaturan_favicon'] ?>" type="image/x-icon">
     <!-- CSS -->
     <link rel="stylesheet" href="frontend/libraries/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="frontend/libraries/aos/aos.css">
@@ -26,7 +27,7 @@ require 'backend/config.php';
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark-cus">
         <div class="container">
             <a href="#" class="navbar-brand">
-                <img src="frontend/images/logo.png" alt="">
+                <img src="frontend/images/<?= $pengaturan['pengaturan_logo'] ?>" alt="">
             </a>
             <button class="navbar-toggler text-small navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
                 <span class="navbar-toggler-icon"></span>
@@ -37,21 +38,25 @@ require 'backend/config.php';
                 <ul class="navbar-nav ml-4 mr-3">
                     <li class="nav-item mx-md-2">
                         <a href="index.php" class="nav-link active">Home</a>
+
                     </li>
                     <li class="nav-item mx-md-2">
                         <a href="menu.php" class="nav-link">Menu</a>
                     </li>
                     <li class="nav-item mx-md-2">
-                        <a href="#preview-game" class="nav-link">Tentang Kami</a>
+                        <a href="#about" class="nav-link">Tentang Kami</a>
                     </li>
                     <li class="nav-item mx-md-2">
-                        <a href="#preview-game" class="nav-link">Kontak</a>
+                        <a href="#testimoni" class="nav-link">Testimoni</a>
+                    </li>
+                    <li class="nav-item mx-md-2">
+                        <a href="#kontak-kami" class="nav-link">Kontak</a>
                     </li>
                 </ul>
                 <?php if (isset($_SESSION['login'])) : ?>
                     <div class="ml-auto">
-                        <a href="dashboard.php" class="btn btn-sm text-white bg-secondary btn-sm"><i class="fas fa-home"></i></a>
-                        <button type="button" data-toggle="modal" data-target="#modalKeranjang" class="btn btn-sm text-white bg-cus-dark btn-sm"><i class="fas fa-shopping-bag"></i></button>
+                        <a href="dashboard.php" class="btn btn-sm text-white bg-secondary shadow btn-sm"><i class="fas fa-home"></i></a>
+                        <button type="button" data-toggle="modal" data-target="#modalKeranjang" class="btn btn-sm shadow text-white bg-cus-dark btn-sm"><i class="fas fa-shopping-bag"></i></button>
                     </div>
                 <?php endif; ?>
 
@@ -63,25 +68,26 @@ require 'backend/config.php';
 
         <div class="modal fade" id="modalKeranjang" tabindex="-1" role="dialog" aria-labelledby="modalKeranjangLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl" role="document">
-                <form action="backend/order/tambah_order.php" method="POST">
 
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" style="font-size:16px;" id="modalKeranjangLabel">Keranjang</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <?php
-                        $query_order = mysqli_query($conn, "SELECT count(order_id) as no_order FROM tb_order");
-                        $order = mysqli_fetch_assoc($query_order);
-                        $no_order = $order['no_order'] + 1;
-                        $no_meja = mysqli_query($conn, "SELECT * FROM tb_meja WHERE status != 1");
-                        $list_pesanan = mysqli_query($conn, "SELECT * FROM tb_detail_order WHERE order_id = 'ORD000$no_order' AND user_id = '$_SESSION[id]'");
-                        $nono = 'ORD000' . $no_order;
-                        $q_hartot = mysqli_query($conn, "SELECT sum(dorder_hartot) as hartot FROM tb_detail_order WHERE order_id = '$nono'");
-                        $hartot = mysqli_fetch_assoc($q_hartot);
-                        ?>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" style="font-size:16px;" id="modalKeranjangLabel">Keranjang</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <?php
+                    $query_order = mysqli_query($conn, "SELECT count(order_id) as no_order FROM tb_order");
+                    $order = mysqli_fetch_assoc($query_order);
+                    $no_order = $order['no_order'] + 1;
+                    $no_meja = mysqli_query($conn, "SELECT * FROM tb_meja WHERE status != 1");
+                    $list_pesanan = mysqli_query($conn, "SELECT * FROM tb_detail_order WHERE order_id = 'ORD000$no_order' AND user_id = '$_SESSION[id]'");
+                    $nono = 'ORD000' . $no_order;
+                    $q_hartot = mysqli_query($conn, "SELECT sum(dorder_hartot) as hartot FROM tb_detail_order WHERE order_id = '$nono'");
+                    $hartot = mysqli_fetch_assoc($q_hartot);
+                    ?>
+                    <form action="backend/order/tambah_order.php" method="POST">
+
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-4">
@@ -92,7 +98,7 @@ require 'backend/config.php';
                                     <div class="form-group">
                                         <label for="">No Meja</label>
                                         <select name="meja" class="form-control text-small" required>
-                                            <option selected disabled>-- Pilih no meja --</option>
+                                            <option selected value="0">-- Pilih no meja --</option>
                                             <?php foreach ($no_meja as $r_nmeja) : ?>
                                                 <option value="<?= $r_nmeja['meja_id'] ?>"><?= $r_nmeja['meja_id'] ?></option>
                                             <?php endforeach; ?>
@@ -150,9 +156,9 @@ require 'backend/config.php';
                             <button type="button" class="btn btn-secondary text-small" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary text-small">Proses</button>
                         </div>
-                </form>
+                    </form>
 
+                </div>
             </div>
-        </div>
         </div>
     <?php endif; ?>

@@ -125,16 +125,14 @@ header {
 }
 
 #about {
-    // padding: 180px 0 165px;
-    margin-top: 20px;
     background-image: url('../images/bg_about.png');
     background-size: cover;
-    padding: 130px 0 130px 0;
+    padding: 150px 0;
 
     h1 {
         font-family: "Zilla Slab";
         font-weight: bold;
-        font-size: 40px;
+        font-size: 35px;
         color: #549494;
         margin-bottom: 20px;
     }
@@ -154,7 +152,7 @@ header {
     background-image: url('../images/bgey.png');
     // background-size: cover;
 
-    height: 320px;
+    height: 350px;
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -162,14 +160,15 @@ header {
 }
 
 #best-seller {
-    margin-top: -250px;
-
+    margin-top: -380px;
     margin-bottom: 40px;
+    padding: 100px 0 0 0;
+
 
     h1 {
         font-family: "Zilla Slab";
         font-weight: bold;
-        font-size: 40px;
+        font-size: 35px;
         text-align: left;
         color: #549494;
         margin-bottom: 50px;
@@ -188,16 +187,21 @@ header {
     }
 }
 
+
 #testimoni {
-    padding: 50px 0;
+    padding: 150px 0;
+    margin-bottom: 30px;
+    background-image: url('../images/bg-tes.png');
+    background-size: cover;
+    height: 546px;
 
     h1 {
         font-family: "Zilla Slab";
         font-weight: bold;
-        font-size: 40px;
+        font-size: 35px;
         text-align: center;
         color: #549494;
-        margin-bottom: 70px;
+        margin-bottom: 30px;
     }
 }
 
@@ -336,12 +340,6 @@ table {
     }
 }
 
-@media (max-width: 575px) {
-    .card-header-menu {
-        height: auto !important;
-    }
-}
-
 @media (max-width: 767px) {
     .stars {
         text-align: center !important;
@@ -389,14 +387,16 @@ table {
 .section-contact {
     margin-top: 20px;
     margin-bottom: 20px;
-    padding: 130px 0 130px 0;
     background-image: url('../images/bg-con.png');
+    background-repeat: no-repeat;
+    background-size: cover;
     padding: 130px 0 130px 0;
+    height: 546px;
 
     h1 {
         font-family: "Zilla Slab";
         font-weight: bold;
-        font-size: 40px;
+        font-size: 35px;
         color: #549494;
         margin-bottom: 30px;
     }
@@ -423,4 +423,73 @@ table {
         border: 1px solid rgb(248, 235, 235);
     }
 
+}
+
+.section-footer {
+    border-bottom: 1px solid #ddd;
+    padding: 70px 0 50px 0;
+
+    h4 {
+        font-family: "Zilla Slab";
+        font-weight: bold;
+        font-size: 28px;
+        text-align: left;
+        color: #549494;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-family: "Rubik";
+        font-weight: 300;
+        font-size: 16px;
+        text-align: left;
+        color: #549494;
+
+    }
+}
+
+footer {
+    p {
+        font-family: "Zilla Slab";
+        font-weight: normal;
+        font-size: 18px;
+        color: #549494;
+
+    }
+}
+
+@media(max-width:575px) {
+    .col-me {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
+    .menu-title {
+        font-size: 14px;
+    }
+
+    .menu-harga {
+        font-size: 12px;
+    }
+
+    .card-header-menu {
+        height: 100px;
+    }
+}
+
+@media(max-width:450px) {
+    .harga-diskon-br {
+        display: block;
+    }
+}
+
+@media(max-width:400px) {
+    .col-me {
+        max-width: 100% !important;
+        flex: 0 0 100%;
+    }
+
+    .card-header-menu {
+        height: auto;
+    }
 }

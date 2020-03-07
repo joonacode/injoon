@@ -11,16 +11,16 @@ $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DES
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="admin.html" class="text-decoration-none">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Master Masakan</li>
+                <li class="breadcrumb-item active" aria-current="page">Data Masakan</li>
             </ol>
         </nav>
-        <h1>Master Masakan</h1>
+        <h1>Data Masakan</h1>
     </div>
 </section>
 
 <section class="list-menu">
     <div class="container">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -33,7 +33,7 @@ $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DES
                                 endif;
                                 ?>
                                 <button class="btn btn-sm btn-primary py-2 px-3 text-small" data-toggle="modal" data-target="#tambah-user">
-                                    Tambah Data <iclass="fas fa-plus"></i>
+                                    Tambah Data <i class="fas fa-plus"></i>
                                 </button>
 
                             </div>
@@ -46,6 +46,8 @@ $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DES
                                                 <th>Gambar</th>
                                                 <th>Nama</th>
                                                 <th>Harga</th>
+                                                <th>Diskon</th>
+                                                <th>Harga Diskon</th>
                                                 <th>Kategori</th>
                                                 <th>Deskripsi</th>
                                                 <th>Option</th>
@@ -64,12 +66,14 @@ $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DES
                                                         <img src="frontend/images/masakan/<?= $mas['masakan_gambar'] ?>" class="img-fluid" width="120" alt="">
                                                     </td>
                                                     <td><?= $mas['masakan_nama'] ?></td>
-                                                    <td><?= $mas['masakan_harga'] ?></td>
+                                                    <td>Rp. <?= $mas['masakan_hsd'] ?></td>
+                                                    <td><span class="btn btn-<?= $mas['masakan_ds'] == 1 ? 'success' : 'danger' ?> text-small btn-sm"><?= $mas['masakan_diskon'] ?>%</span></td>
+                                                    <td>Rp. <?= $mas['masakan_harga'] ?></td>
                                                     <td><?= $query_kat['kategori_nama'] ?></td>
                                                     <td><?= $mas['masakan_deskripsi'] ?></td>
                                                     <td>
                                                         <a href="backend/masakan/hapus_masakan.php?id=<?= $mas['masakan_id'] ?>" class="btn btn-danger btn-sm text-small" onclick="return confirm('Yakin ingin menghapus data ini ?')"><i class="fas fa-trash"></i></a>
-                                                        <button type="button" class="btn btn-sm btn-secondary text-small text-white" data-toggle="modal" data-target="#ubahMasakan_<?= $mas['masakan_id'] ?>"><i class="fas fa-pen"></i></button>
+                                                        <button type="button" class="btn btn-sm btn-secondary text-small text-white modalUbahMasakan" data-toggle="modal" data-idmasak='<?= $mas['masakan_id'] ?>' data-target="#ubahMasakan_<?= $mas['masakan_id'] ?>"><i class="fas fa-pen"></i></button>
                                                     </td>
                                                 </tr>
                                             <?php $i++;
@@ -106,8 +110,38 @@ $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DES
                         <input type="text" name="nama" class="form-control" required>
                     </div>
                     <div class="form-group">
+                        <label for="">Diskon</label>
+                        <select name="diskon_status" class="form-control text-small cekDiskon">
+                            <option value="0">Tidak ada diskon</option>
+                            <option value="1">Ada diskon</option>
+                        </select>
+                    </div>
+                    <div class="row diskon-hidden" style="display: none">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Harga</label>
+                                <input type="number" name="harga_sebelum_diskon" class="form-control h-d">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Diskon</label>
+                                <input type="text" name="diskonnya" class="form-control text-small d-s">
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="">Harga Setelah Diskon</label>
+                                <input type="number" name="harga_setelah_diskon" readonly class="form-control h-akhir">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group harga-show">
                         <label for="">Harga</label>
-                        <input type="number" name="harga" class="form-control" required>
+                        <input type="number" name="harga" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="">Kategori</label>
@@ -126,10 +160,10 @@ $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DES
                         <textarea name="deskripsi" class="form-control text-small" required></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="">Gambar</label>
+                        <label for="">Gambar <sup>*Max size 2mb</sup></label>
                         <input type="file" name="foto" class="form-control">
                     </div>
-                    <button type="submit" class="btn btn-block btn-primary text-small">Tambah</button>
+                    <button type="submit" class="btn btn-block btn-primary text-small">Tambah <i class="fas fa-plus"></i></button>
 
                 </form>
             </div>
@@ -156,8 +190,38 @@ $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DES
                             <input type="text" value="<?= $u_masakan['masakan_nama'] ?>" name="nama" class="form-control" required>
                         </div>
                         <div class="form-group">
+                            <label for="">Diskon <sup>*Pilih untuk mengubah status</sup></label>
+                            <select name="diskon_status" class="form-control text-small cekDiskon-u" data-idM="<?= $u_masakan['masakan_id'] ?>">
+                                <option value="0" <?= $u_masakan['masakan_ds'] ==  0 ? 'selected' : '' ?>>Tidak ada diskon</option>
+                                <option value="1" <?= $u_masakan['masakan_ds'] ==  1 ? 'selected' : '' ?>>Ada diskon</option>
+                            </select>
+                        </div>
+                        <div class="row diskon-hidden-u" style="display: <?= $u_masakan['masakan_ds'] ==  1 ? 'flex' : 'none' ?>">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Harga</label>
+
+                                    <input type="number" value="<?= $u_masakan['masakan_ds'] == 1 ? $u_masakan['masakan_hsd'] : $u_masakan['masakan_harga'] ?>" name="harga_sebelum_diskon" class="form-control h-d-<?= $u_masakan['masakan_id'] ?>">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Diskon</label>
+                                    <input type="text" name="diskonnya" value="<?= $u_masakan['masakan_diskon'] ?>" class="form-control text-small d-s-<?= $u_masakan['masakan_id'] ?>">
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">Harga Setelah Diskon</label>
+                                    <input type="number" name="harga_setelah_diskon" value="<?= $u_masakan['masakan_harga'] ?>" readonly class="form-control h-akhir-<?= $u_masakan['masakan_id'] ?>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group harga-show-u" style="display: <?= $u_masakan['masakan_ds'] ==  1 ? 'none' : 'block' ?>">
                             <label for="">Harga</label>
-                            <input type="number" name="harga" value="<?= $u_masakan['masakan_harga'] ?>" class="form-control" required>
+                            <input type=" number" name="harga" value="<?= $u_masakan['masakan_harga'] ?>" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="">Kategori</label>
@@ -176,7 +240,7 @@ $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DES
                             <textarea name="deskripsi" class="form-control text-small" required><?= $u_masakan['masakan_deskripsi'] ?></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="">Gambar</label>
+                            <label for="">Gambar <sup>*Max size 2mb</sup></label>
                             <input type="file" name="foto" class="form-control">
                         </div>
                         <div class="from-group">
@@ -186,7 +250,7 @@ $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DES
                             <br>
                             <br>
                         </div>
-                        <button type="submit" class="btn btn-block btn-primary text-small">Ubah</button>
+                        <button type="submit" class="btn btn-block btn-primary text-small">Simpan Perubahan <i class="fas fa-save"></i></button>
 
                     </form>
                 </div>
@@ -194,6 +258,9 @@ $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DES
         </div>
     </div>
 <?php endforeach; ?>
+
+
+<?php require 'templates/footer_text.php' ?>
 
 
 <script src="frontend/libraries/jquery/jquery-3.4.1.min.js"></script>
@@ -205,6 +272,88 @@ $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DES
     // AOS.init();
     $(document).ready(function() {
         $('.datatables').DataTable();
+        $('.cekDiskon').on('change', function() {
+            let diskon = $('.cekDiskon').val();
+            console.log(diskon);
+            if (diskon == 1) {
+                $('.diskon-hidden').show();
+                $('.harga-show').hide();
+                $('.d-s').on('keyup', function() {
+                    let harga = $('.h-d').val();
+                    let diskonInp = $('.d-s').val();
+                    let diskonAkhir = harga * diskonInp / 100;
+                    let hAkhir = harga - diskonAkhir;
+                    $('.h-akhir').val(hAkhir);
+                })
+                $('.h-d').on('keyup', function() {
+                    let harga = $('.h-d').val();
+                    let diskonInp = $('.d-s').val();
+                    let diskonAkhir = harga * diskonInp / 100;
+                    let hAkhir = harga - diskonAkhir;
+                    $('.h-akhir').val(hAkhir);
+                })
+            } else {
+                $('.diskon-hidden').hide();
+                $('.harga-show').show();
+            }
+        })
+
+
+
+        $('.modalUbahMasakan').on('click', function() {
+
+            let id = $(this).data('idmasak');
+            console.log(id);
+            $('.d-s-' + id).on('keyup', function() {
+                let hargaU = $('.h-d-' + id).val();
+                let diskonInpU = $('.d-s-' + id).val();
+                let diskonAkhirU = hargaU * diskonInpU / 100;
+                let hAkhirU = hargaU - diskonAkhirU;
+                $('.h-akhir-' + id).val(hAkhirU);
+                console.log(hargaU);
+                console.log(diskonInpU);
+            })
+            $('.h-d-' + id).on('keyup', function() {
+                let hargaU = $('.h-d-' + id).val();
+                let diskonInpU = $('.d-s-' + id).val();
+                let diskonAkhirU = hargaU * diskonInpU / 100;
+                let hAkhirU = hargaU - diskonAkhirU;
+                $('.h-akhir-' + id).val(hAkhirU);
+                console.log(hargaU);
+                console.log(diskonInpU);
+            })
+
+            $('.cekDiskon-u').on('change', function() {
+                let diskonU = $(this).val();
+                if (diskonU == 1) {
+                    $('.diskon-hidden-u').show();
+                    $('.harga-show-u').hide();
+                    $('.d-s-' + id).on('keyup', function() {
+                        let hargaU = $('.h-d-' + id).val();
+                        let diskonInpU = $('.d-s-' + id).val();
+                        let diskonAkhirU = hargaU * diskonInpU / 100;
+                        let hAkhirU = hargaU - diskonAkhirU;
+                        $('.h-akhir-' + id).val(hAkhirU);
+                        console.log(hargaU);
+                        console.log(diskonInpU);
+                    })
+                    $('.h-d-' + id).on('keyup', function() {
+                        let hargaU = $('.h-d-' + id).val();
+                        let diskonInpU = $('.d-s-' + id).val();
+                        let diskonAkhirU = hargaU * diskonInpU / 100;
+                        let hAkhirU = hargaU - diskonAkhirU;
+                        $('.h-akhir-' + id).val(hAkhirU);
+                        console.log(hargaU);
+                        console.log(diskonInpU);
+                    })
+                } else {
+                    $('.diskon-hidden-u').hide();
+                    $('.harga-show-u').show();
+                }
+            })
+
+        })
+
     })
 </script>
 </body>

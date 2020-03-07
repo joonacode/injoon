@@ -1,9 +1,12 @@
 <?php
 session_start();
+require 'backend/config.php';
 if (isset($_SESSION['login'])) {
     //Halaman tujuam
     header('Location:dashboard.php');
 }
+$q_pengaturan = mysqli_query($conn, "SELECT * FROM tb_pengaturan WHERE pengaturan_id = 1");
+$pengaturan = mysqli_fetch_assoc($q_pengaturan);
 ?>
 <!doctype html>
 <html lang="en">
@@ -11,7 +14,7 @@ if (isset($_SESSION['login'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="frontend/images/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="frontend/images/<?= $pengaturan['pengaturan_favicon'] ?>" type="image/x-icon">
     <!-- CSS -->
     <link rel="stylesheet" href="frontend/libraries/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="frontend/libraries/aos/aos.css">
@@ -44,7 +47,7 @@ if (isset($_SESSION['login'])) {
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="">Username / Email</label>
-                                    <input type="text" name="ue" class="form-control">
+                                    <input type="text" name="ue" autofocus class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Password</label>

@@ -21,7 +21,7 @@ $transaksi = mysqli_query($conn, "SELECT * FROM tb_transaksi ORDER BY transaksi_
 
 <section class="list-menu">
     <div class="container">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -91,6 +91,7 @@ $transaksi = mysqli_query($conn, "SELECT * FROM tb_transaksi ORDER BY transaksi_
         </div>
     </div>
 </section>
+<?php require 'templates/footer_text.php' ?>
 
 <script src="frontend/libraries/jquery/jquery-3.4.1.min.js"></script>
 <script src="frontend/libraries/bootstrap/js/bootstrap.js"></script>

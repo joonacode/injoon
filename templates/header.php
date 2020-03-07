@@ -6,6 +6,12 @@ if ($_SESSION['login'] != true) {
     //Halaman tujuam
     header('Location:hayuu.php');
 }
+$role = mysqli_query($conn, "SELECT * FROM tb_role WHERE role_id = '$_SESSION[role]'");
+$get_role = mysqli_fetch_assoc($role);
+$qUser = mysqli_query($conn, "SELECT * FROM tb_user WHERE user_id = '$_SESSION[id]'");
+$user = mysqli_fetch_assoc($qUser);
+$q_pengaturan = mysqli_query($conn, "SELECT * FROM tb_pengaturan WHERE pengaturan_id = 1");
+$pengaturan = mysqli_fetch_assoc($q_pengaturan);
 ?>
 <!doctype html>
 <html lang="en">
@@ -13,7 +19,7 @@ if ($_SESSION['login'] != true) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="frontend/images/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="frontend/images/<?= $pengaturan['pengaturan_favicon'] ?>" type="image/x-icon">
     <!-- CSS -->
     <link rel="stylesheet" href="frontend/libraries/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="frontend/libraries/aos/aos.css">
@@ -31,7 +37,7 @@ if ($_SESSION['login'] != true) {
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark-cus">
         <div class="container">
             <a href="#" class="navbar-brand">
-                <img src="frontend/images/logo.png" alt="">
+                <img src="frontend/images/<?= $pengaturan['pengaturan_logo'] ?>" alt="">
             </a>
             <button class="navbar-toggler text-small navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
                 <span class="navbar-toggler-icon"></span>
@@ -50,8 +56,8 @@ if ($_SESSION['login'] != true) {
                                 Entri Referensi
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item text-small" href="masakan.php">Master Masakan</a>
-                                <a class="dropdown-item text-small" href="user.php">Master User</a>
+                                <a class="dropdown-item text-small" href="masakan.php">Masakan</a>
+                                <a class="dropdown-item text-small" href="user.php">User</a>
 
                             </div>
                         </li>
@@ -106,8 +112,19 @@ if ($_SESSION['login'] != true) {
                             <a href="laporan.php" class="nav-link">Laporan</a>
                         </li>
                     <?php endif; ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Lainnya
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item text-small" href="profile.php">Profile</a>
+                            <?php if ($_SESSION['role'] == 1 || $_SESSION['role'] == 2) : ?>
+                                <a class="dropdown-item text-small" href="pengaturan.php">Pengaturan</a>
+                            <?php endif; ?>
+                        </div>
+                    </li>
                 </ul>
-                <a href="logout.php" onclick="return confirm('Apakah anda yakin ingin keluar ?')" class="btn btn-dark px-3 py-2 bg-cus-dark ml-auto text-small border-0">Logout <i class="fas fa-sign-out-alt"></i></a>
+                <a href="logout.php" onclick="return confirm('Apakah anda yakin ingin keluar ?')" class="btn btn-dark shadow px-3 py-2 bg-cus-dark ml-auto text-small border-0">Logout <i class="fas fa-sign-out-alt"></i></a>
             </div>
 
         </div>

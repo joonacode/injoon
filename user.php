@@ -1,7 +1,7 @@
 <?php
 
 include 'templates/header.php';
-$user = mysqli_query($conn, "SELECT * FROM tb_user ORDER BY user_id DESC");
+$user = mysqli_query($conn, "SELECT * FROM tb_user WHERE user_id != '$_SESSION[id]' ORDER BY user_id DESC");
 
 
 ?>
@@ -12,16 +12,16 @@ $user = mysqli_query($conn, "SELECT * FROM tb_user ORDER BY user_id DESC");
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="admin.html" class="text-decoration-none">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Master User</li>
+                <li class="breadcrumb-item active" aria-current="page">Data User</li>
             </ol>
         </nav>
-        <h1>Master User</h1>
+        <h1>Data User</h1>
     </div>
 </section>
 
 <section class="list-menu">
     <div class="container">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -34,7 +34,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_user ORDER BY user_id DESC");
                                 endif;
                                 ?>
                                 <button class="btn btn-sm btn-primary py-2 px-3 text-small" data-toggle="modal" data-target="#tambah-user">
-                                    Tambah Data <iclass="fas fa-plus"></i>
+                                    Tambah Data <i class="fas fa-plus"></i>
                                 </button>
 
                             </div>
@@ -102,7 +102,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_user ORDER BY user_id DESC");
                 </button>
             </div>
             <div class="modal-body">
-                <form action="backend/user/tambah_user.php" method="POST">
+                <form action="backend/user/tambah_user.php" method="POST" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -138,6 +138,10 @@ $user = mysqli_query($conn, "SELECT * FROM tb_user ORDER BY user_id DESC");
                                 <textarea name="alamat" class="form-control text-small"></textarea>
                             </div>
                             <div class="form-group">
+                                <label for="">Foto Profile <sup>*Optional</sup></label>
+                                <input type="file" name="foto" class="form-control">
+                            </div>
+                            <div class="form-group">
                                 <label for="">Password</label>
                                 <input type="password" name="password" class="form-control" required>
                             </div>
@@ -146,7 +150,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_user ORDER BY user_id DESC");
                                 <input type="password" name="v_password" class="form-control" required>
                             </div>
 
-                            <button type="submit" class="btn btn-block btn-primary text-small">Tambah</button>
+                            <button type="submit" class="btn btn-block btn-primary text-small">Tambah <i class="fas fa-plus"></i></button>
                         </div>
                     </div>
                 </form>
@@ -167,8 +171,9 @@ $user = mysqli_query($conn, "SELECT * FROM tb_user ORDER BY user_id DESC");
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="backend/user/ubah_user.php" method="POST">
-                    <input type="hidden" name="id" value="<?= $ubahRow['user_id'] ?>">
+                    <form action="backend/user/ubah_user.php" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="id" value="<?= $ubahRow['user_id'] ?>">
+                        <input type="hidden" name="itsProfile" value="n">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -183,13 +188,13 @@ $user = mysqli_query($conn, "SELECT * FROM tb_user ORDER BY user_id DESC");
                                     <label for="">Email</label>
                                     <input type="email" name="email" value="<?= $ubahRow['user_email'] ?>" class="form-control" required>
                                 </div>
-
-                            </div>
-                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Username</label>
                                     <input type="text" name="username" value="<?= $ubahRow['user_username'] ?>" class="form-control" required>
                                 </div>
+                            </div>
+                            <div class="col-md-6">
+
                                 <div class="form-group">
                                     <label for="">Role</label>
                                     <select name="role" class="form-control text-small">
@@ -206,8 +211,18 @@ $user = mysqli_query($conn, "SELECT * FROM tb_user ORDER BY user_id DESC");
                                     <label for="">Alamat</label>
                                     <textarea name="alamat" class="form-control text-small"><?= $ubahRow['user_alamat'] ?></textarea>
                                 </div>
-
-                                <button type="submit" class="btn btn-block btn-primary text-small">Ubah</button>
+                                <div class="form-group">
+                                    <label for="">Gambar</label>
+                                    <input type="file" name="foto" class="form-control">
+                                </div>
+                                <div class="from-group">
+                                    <label>Gambar Lama</label><br>
+                                    <img src="frontend/images/profile/<?= $ubahRow['user_foto'] ?>" class="img-thumbnail" width="100" alt="">
+                                    <input type="hidden" name="gambar_lama" value="<?= $ubahRow['user_foto'] ?>">
+                                    <br>
+                                    <br>
+                                </div>
+                                <button type="submit" class="btn btn-block btn-primary text-small">Simpan Perubahan <i class="fas fa-save"></i></button>
                             </div>
                         </div>
                     </form>
@@ -216,6 +231,7 @@ $user = mysqli_query($conn, "SELECT * FROM tb_user ORDER BY user_id DESC");
         </div>
     </div>
 <?php endforeach; ?>
+<?php require 'templates/footer_text.php' ?>
 
 <script src="frontend/libraries/jquery/jquery-3.4.1.min.js"></script>
 <script src="frontend/libraries/bootstrap/js/bootstrap.js"></script>

@@ -4,7 +4,21 @@ require '../config.php';
 
 $id = htmlspecialchars($_POST['id']);
 $nama = htmlspecialchars($_POST['nama']);
-$harga = htmlspecialchars($_POST['harga']);
+
+$diskon_status = htmlspecialchars($_POST['diskon_status']);
+
+if ($diskon_status == 1) {
+    $harga_sebelum_diskon = htmlspecialchars($_POST['harga_sebelum_diskon']);
+    $diskonnya = htmlspecialchars($_POST['diskonnya']);
+    $harga_setelah_diskon = htmlspecialchars($_POST['harga_setelah_diskon']);
+    $harganya = $harga_setelah_diskon;
+} else {
+    $harga = htmlspecialchars($_POST['harga']);
+    $harga_sebelum_diskon = $harga;
+    $diskonnya = 0;
+    $harga_setelah_diskon = $harga;
+    $harganya = $harga;
+}
 $deskripsi = htmlspecialchars($_POST['deskripsi']);
 $kategori = htmlspecialchars($_POST['kategori']);
 $gambar_lama = htmlspecialchars($_POST['gambar_lama']);
@@ -18,7 +32,10 @@ if (move_uploaded_file($place_foto, '../../frontend/images/masakan/' . $enkripsi
 
     $queryUbah = "UPDATE tb_masakan SET 
     masakan_nama='$nama',
-    masakan_harga='$harga',
+    masakan_ds='$diskon_status',
+    masakan_hsd='$harga_sebelum_diskon',
+    masakan_diskon='$diskonnya',
+    masakan_harga='$harganya',
     masakan_deskripsi='$deskripsi',
     kategori_id='$kategori',
     masakan_gambar = '$enkripsi_nama_foto'
@@ -45,7 +62,10 @@ if (move_uploaded_file($place_foto, '../../frontend/images/masakan/' . $enkripsi
 } else {
     $queryUbah = "UPDATE tb_masakan SET 
     masakan_nama='$nama',
-    masakan_harga='$harga',
+    masakan_ds='$diskon_status',
+    masakan_hsd='$harga_sebelum_diskon',
+    masakan_diskon='$diskonnya',
+    masakan_harga='$harganya',
     masakan_deskripsi='$deskripsi',
     kategori_id='$kategori'
     WHERE masakan_id = '$id'

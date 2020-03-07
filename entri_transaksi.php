@@ -27,7 +27,7 @@ $member = mysqli_query($conn, "SELECT * FROM tb_user WHERE role_id = 5");
 
 <section class="list-menu">
     <div class="container">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -107,16 +107,7 @@ $member = mysqli_query($conn, "SELECT * FROM tb_user WHERE role_id = 5");
                                                     <?php endif; ?>
                                                 </select>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <button class="btn btn-block btn-btn-sm btn-primary text-small">Tunai</button>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <button class="btn btn-block btn-btn-sm btn-primary text-small">Debit</button>
-                                                    </div>
-                                                </div>
-                                            </div>
+
                                             <div class="form-group">
                                                 <label for="">Member</label>
                                                 <select name="member" class="form-control text-small">
@@ -148,17 +139,17 @@ $member = mysqli_query($conn, "SELECT * FROM tb_user WHERE role_id = 5");
                                             </div>
                                             <div class="form-group">
                                                 <label for="">Diskon</label>
-                                                <input type="number" class="form-control diskon" name="diskon" value="0" placeholder="Diskon">
+                                                <input type="number" class="form-control diskon" min="0" max="100" name="diskon" value="0" placeholder="Diskon">
                                             </div>
                                             <div class="form-group">
                                                 <label for="">Total Bayar</label>
 
-                                                <input type="number" class="form-control totbayar" required value="<?= $toto ?>" name="total_bayar" placeholder="Total Bayar">
+                                                <input type="number" readonly class="form-control totbayar" required value="<?= $toto ?>" name="total_bayar" placeholder="Total Bayar">
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <input type="number" class="form-control uang" required name="uang" placeholder="Uang">
+                                                        <input type="number" min="1" class="form-control uang" required name="uang" placeholder="Uang">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -167,7 +158,7 @@ $member = mysqli_query($conn, "SELECT * FROM tb_user WHERE role_id = 5");
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button class="btn btn-block btn-btn-sm btn-primary text-small">Bayar</button>
+                                            <button class="btn btn-block btn-btn-sm btn-primary text-small">Bayar <i class="fas fa-money-bill"></i></button>
 
                                         </form>
                                     </div>
@@ -184,6 +175,7 @@ $member = mysqli_query($conn, "SELECT * FROM tb_user WHERE role_id = 5");
         </div>
     </div>
 </section>
+<?php require 'templates/footer_text.php' ?>
 
 <script src="frontend/libraries/jquery/jquery-3.4.1.min.js"></script>
 <script src="frontend/libraries/bootstrap/js/bootstrap.js"></script>

@@ -10,7 +10,7 @@ if ($query_masakan['masakan_gambar'] != 'default.png') {
 }
 $hapus_user = "DELETE FROM tb_masakan WHERE masakan_id = '$id'";
 $query = mysqli_query($conn, $hapus_user);
-
+mysqli_query($conn, "DELETE FROM tb_best_seller WHERE masakan_id = '$id'");
 if ($query > 0) {
     $_SESSION['pesan'] = '
     <div class="alert alert-success mb-2 alert-dismissible text-small " role="alert">

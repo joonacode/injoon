@@ -11,10 +11,16 @@ $total_bayar = htmlspecialchars($_POST['total_bayar']);
 $uang = htmlspecialchars($_POST['uang']);
 $kembalian = htmlspecialchars($_POST['kembalian']);
 $tanggal = time();
+$tanggal2 = date('d-m-Y');
 
-
-
-if ($kembalian < 0 || $uang == 0) {
+$q_detailOrder = mysqli_query($conn, "SELECT * FROM tb_detail_order WHERE order_id = '$order_id'");
+foreach ($q_detailOrder as $detailOrder) {
+    $q_bestSeller = mysqli_query($conn, "SELECT * FROM tb_best_seller WHERE masakan_id = '$detailOrder[masakan_id]'");
+    $bestSeller = mysqli_fetch_array($q_bestSeller);
+    $jumlah_bs = $bestSeller['jumlah_jual'] + $detailOrder['dorder_jumlah'];
+    mysqli_query($conn, "UPDATE tb_best_seller SET jumlah_jual = '$jumlah_bs' WHERE masakan_id = '$detailOrder[masakan_id]'");
+}
+if ($uang < $total_bayar) {
     $_SESSION['pesan'] = '
             <div class="alert alert-danger mb-2 alert-dismissible text-small " role="alert">
             <b>Pembayaran gagal!</b> Uang kurang
@@ -27,7 +33,7 @@ if ($kembalian < 0 || $uang == 0) {
 
     mysqli_query($conn, "UPDATE tb_meja set status = 0 WHERE meja_id = '$meja'");
 
-    $queryTambah = "INSERT INTO tb_transaksi VALUES('', '$member', '$order_id', '$tanggal', '$total_harga', '$diskon', '$total_bayar', '$uang', '$kembalian')";
+    $queryTambah = "INSERT INTO tb_transaksi VALUES('', '$member', '$order_id', '$tanggal', '$tanggal2', '$total_harga', '$diskon', '$total_bayar', '$uang', '$kembalian')";
     $query = mysqli_query($conn, $queryTambah);
     if ($query > 0) {
         $_SESSION['pesan'] = '
