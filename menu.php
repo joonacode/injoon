@@ -20,7 +20,7 @@ if (isset($_POST['q'])) {
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item"><a href="index.php" class="text-decoration-none">Home</a></li>
                 <li class="breadcrumb-item"><a href="menu.php" class="text-decoration-none">Menu</a></li>
                 <?php if (isset($_GET['kategori'])) :
                     $q_kat = mysqli_query($conn, "SELECT * FROM tb_kategori WHERE kategori_id = '$_GET[kategori]'");
@@ -99,7 +99,7 @@ if (isset($_POST['q'])) {
                     $cek_available = mysqli_num_rows($masakan_kategori);
                 } else {
                     $halaman = (isset($_GET['h']) ? $_GET['h'] : 1);
-                    $limit = 2;
+                    $limit = 12;
                     $mulai = ($halaman > 1) ? ($halaman * $limit) - $limit : 0;
                     $masakan_kategori = mysqli_query($conn, "SELECT * FROM tb_masakan WHERE kategori_id = '$_GET[kategori]' ORDER BY masakan_id DESC LIMIT $mulai, $limit");
                     $cek_available = mysqli_num_rows($masakan_kategori);
@@ -114,7 +114,7 @@ if (isset($_POST['q'])) {
                     </div>
                 <?php endif; ?>
                 <?php foreach ($masakan_kategori as $row) : ?>
-                    <div class="col-md-4 col-lg-3 col-sm-6 mb-4" data-aos="fade-up" data-aos-duration="500">
+                    <div class="col-md-4 col-lg-3 col-sm-6 mb-4 col-me" data-aos="fade-up" data-aos-duration="500">
                         <div class="card shadow-sm border-0">
                             <div class="card-header-menu">
                                 <img src="frontend/images/masakan/<?= $row['masakan_gambar'] ?>" class="card-img-top gambar-menu" alt="...">
@@ -124,8 +124,14 @@ if (isset($_POST['q'])) {
                                     <?= $row['masakan_nama'] ?>
                                 </a>
                                 <p class="menu-harga mt-1">
-                                    Rp. <?= $row['masakan_harga'] ?>
-                                </p>
+                                    <?php if ($row['masakan_ds'] == 1) : ?>
+
+                                        <span class="text-danger harga-diskon-br">Rp. <?= rupiah($row['masakan_harga']) ?></span>
+                                        <span style="font-size:10px;"><s>Rp. <?= rupiah($row['masakan_hsd']) ?></s></span>
+                                        <span class="badge badge-success float-right">- <?= $row['masakan_diskon'] ?>%</span>
+                                    <?php else : ?>
+                                        Rp. <?= rupiah($row['masakan_harga']) ?>
+                                    <?php endif; ?> </p>
                                 <?php if (isset($_SESSION['login'])) : ?>
                                     <?php if ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) : ?>
                                         <button type="button" data-toggle="modal" data-target="#dMasakan_<?= $row['masakan_id'] ?>" class="btn btn-sm my-1 btn-kategori-active bg-primary text-white btn-block">Pesan <i class="fas fa-shopping-basket"></i></button>
@@ -161,11 +167,11 @@ if (isset($_POST['q'])) {
                                 <p class="menu-harga mt-1">
                                     <?php if ($row['masakan_ds'] == 1) : ?>
 
-                                        <span class="text-danger harga-diskon-br">Rp. <?= $row['masakan_harga'] ?></span>
-                                        <span style="font-size:10px;"><s>Rp. <?= $row['masakan_hsd'] ?></s></span>
+                                        <span class="text-danger harga-diskon-br">Rp. <?= rupiah($row['masakan_harga']) ?></span>
+                                        <span style="font-size:10px;"><s>Rp. <?= rupiah($row['masakan_hsd']) ?></s></span>
                                         <span class="badge badge-success float-right">- <?= $row['masakan_diskon'] ?>%</span>
                                     <?php else : ?>
-                                        Rp. <?= $row['masakan_harga'] ?>
+                                        Rp. <?= rupiah($row['masakan_harga']) ?>
                                     <?php endif; ?>
                                 </p>
                                 <?php if (isset($_SESSION['login'])) : ?>
@@ -251,7 +257,7 @@ if (isset($_POST['q'])) {
                                 </div>
                                 <div class="form-group">
                                     <label for="">Harga</label>
-                                    <input type="text" readonly class="form-control" value="<?= $d_masakan['masakan_harga'] ?>">
+                                    <input type="text" readonly class="form-control" value="Rp. <?= rupiah($d_masakan['masakan_harga']) ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Jumlah Pesanan</label>
@@ -266,8 +272,8 @@ if (isset($_POST['q'])) {
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary text-small" data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary text-small">Simpan</button>
+                        <button type="button" class="btn btn-secondary text-small" data-dismiss="modal">Tutup <i class="fas fa-times"></i></button>
+                        <button type="submit" class="btn btn-primary text-small">Simpan <i class="fas fa-save"></i></button>
                     </div>
                 </form>
             </div>

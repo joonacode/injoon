@@ -26,7 +26,7 @@ $pengaturan = mysqli_fetch_assoc($q_pengaturan);
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark-cus">
         <div class="container">
-            <a href="#" class="navbar-brand">
+            <a href="index.php" class="navbar-brand">
                 <img src="frontend/images/<?= $pengaturan['pengaturan_logo'] ?>" alt="">
             </a>
             <button class="navbar-toggler text-small navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
@@ -54,11 +54,18 @@ $pengaturan = mysqli_fetch_assoc($q_pengaturan);
                     </li>
                 </ul>
                 <?php if (isset($_SESSION['login'])) : ?>
+
                     <div class="ml-auto">
                         <a href="dashboard.php" class="btn btn-sm text-white bg-secondary shadow btn-sm"><i class="fas fa-home"></i></a>
-                        <button type="button" data-toggle="modal" data-target="#modalKeranjang" class="btn btn-sm shadow text-white bg-cus-dark btn-sm"><i class="fas fa-shopping-bag"></i></button>
+                        <?php
+                        $ses = $_SESSION['role'];
+                        if ($ses == 2 || $ses == 3) :
+
+                        ?>
+                            <button type="button" data-toggle="modal" data-target="#modalKeranjang" class="btn btn-sm shadow text-white bg-cus-dark btn-sm"><i class="fas fa-shopping-bag"></i></button>
                     </div>
                 <?php endif; ?>
+            <?php endif; ?>
 
             </div>
 
@@ -117,10 +124,10 @@ $pengaturan = mysqli_fetch_assoc($q_pengaturan);
                                                 <tr>
                                                     <th width="10">No</th>
                                                     <th>Nama</th>
-                                                    <th width="200">Deskripsi</th>
-                                                    <th width="50">Harga</th>
-                                                    <th width="10">Jumlah</th>
-                                                    <th width="50">Harga Akhir</th>
+                                                    <th width="170">Deskripsi</th>
+                                                    <th width="100">Harga</th>
+                                                    <th width="50">Jml</th>
+                                                    <th width="130">Harga Akhir</th>
                                                     <th width="10">Option</th>
                                                 </tr>
                                             </thead>
@@ -134,16 +141,16 @@ $pengaturan = mysqli_fetch_assoc($q_pengaturan);
                                                         <td><?= $no ?></td>
                                                         <td><?= $q_masakan['masakan_nama'] ?></td>
                                                         <td><?= $list_row['dorder_keterangan'] ?></td>
-                                                        <td><?= $q_masakan['masakan_harga'] ?></td>
+                                                        <td>Rp. <?= rupiah($q_masakan['masakan_harga']) ?></td>
                                                         <td><?= $list_row['dorder_jumlah'] ?></td>
-                                                        <td><?= $q_masakan['masakan_harga'] * $list_row['dorder_jumlah'] ?></td>
+                                                        <td>Rp. <?= rupiah($q_masakan['masakan_harga'] * $list_row['dorder_jumlah']) ?></td>
                                                         <td><a href="backend/order/hapus_pesan.php?id=<?= $list_row['dorder_id'] ?>" onclick="return confirm('Apakah anda yakin ?')" class="btn btn-sm btn-danger text-small"><i class="fas fa-trash"></i></a></td>
                                                     </tr>
                                                 <?php $no++;
                                                 endforeach; ?>
                                                 <tr>
                                                     <td colspan="7">
-                                                        Total Harga : Rp. <?= $hartot['hartot'] ?>
+                                                        Total Harga : Rp. <?= rupiah($hartot['hartot']) ?>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -153,8 +160,8 @@ $pengaturan = mysqli_fetch_assoc($q_pengaturan);
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary text-small" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary text-small">Proses</button>
+                            <button type="button" class="btn btn-secondary text-small" data-dismiss="modal">Tutup <i class="fas fa-times"></i></button>
+                            <button type="submit" class="btn btn-primary text-small">Proses <i class="fas fa-check"></i></button>
                         </div>
                     </form>
 

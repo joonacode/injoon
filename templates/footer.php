@@ -14,7 +14,7 @@
                 <a href="index.php#about" class="btn btn-sm text-small btn-secondary mb-1">About</a>
                 <a href="index.php#kontak-kami" class="btn btn-sm text-small btn-secondary mb-1">Kontak</a>
                 <a href="index.php#testimoni" class="btn btn-sm text-small btn-secondary mb-1">Testimoni</a>
-                <a href="index.php#best-seller" class="btn btn-sm text-small btn-secondary mb-1">Menu Terlaris</a>
+                <a href="index.php#best-seller" class="btn btn-sm text-small btn-secondary mb-1">Menu Populer</a>
             </div>
             <div class="col-md-3 mb-3 mx-auto">
                 <h4>Social Media</h4>

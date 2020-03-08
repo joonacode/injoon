@@ -36,7 +36,7 @@ $pengaturan = mysqli_fetch_assoc($q_pengaturan);
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark-cus">
         <div class="container">
-            <a href="#" class="navbar-brand">
+            <a href="dashboard.php" class="navbar-brand">
                 <img src="frontend/images/<?= $pengaturan['pengaturan_logo'] ?>" alt="">
             </a>
             <button class="navbar-toggler text-small navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">

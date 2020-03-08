@@ -41,7 +41,7 @@ $pendapatan = mysqli_fetch_assoc($q_pendapatan);
                     <div class="col-lg-4 col-md-12 mb-3">
                         <div class="card">
                             <div class="card-body">
-                                <img src="frontend/images/profile/default.png" class="img-thumbnail float-left mr-2" width="50" alt="">
+                                <img src="frontend/images/profile/<?= $user['user_foto'] ?>" class="img-thumbnail float-left mr-2" width="50" alt="">
                                 <b>Hallo <?= $_SESSION['nama'] ?></b><br>
                                 <span class="mb-0 text-small">Login sebagai <?= $get_role['role_nama'] ?> | <a href="profile.php">Profile</a></span>
                             </div>
@@ -63,7 +63,7 @@ $pendapatan = mysqli_fetch_assoc($q_pendapatan);
                         <div class="card">
                             <div class="card-body">
                                 <b>Total Pendapatan Hari Ini</b>
-                                <p class="mb-0">Rp. <?= $pendapatan['totbar'] ?></p>
+                                <p class="mb-0">Rp. <?= $pendapatan['totbar'] == 0 ? '0' : rupiah($pendapatan['totbar']) ?></p>
                             </div>
                         </div>
                     </div>

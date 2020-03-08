@@ -3,6 +3,10 @@
 include 'templates/header.php';
 $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DESC");
 
+if ($_SESSION['role'] != 2) {
+    header('Location:hayuu.php');
+}
+
 ?>
 
 <!-- Header -->
@@ -66,9 +70,9 @@ $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DES
                                                         <img src="frontend/images/masakan/<?= $mas['masakan_gambar'] ?>" class="img-fluid" width="120" alt="">
                                                     </td>
                                                     <td><?= $mas['masakan_nama'] ?></td>
-                                                    <td>Rp. <?= $mas['masakan_hsd'] ?></td>
+                                                    <td>Rp. <?= rupiah($mas['masakan_hsd']) ?></td>
                                                     <td><span class="btn btn-<?= $mas['masakan_ds'] == 1 ? 'success' : 'danger' ?> text-small btn-sm"><?= $mas['masakan_diskon'] ?>%</span></td>
-                                                    <td>Rp. <?= $mas['masakan_harga'] ?></td>
+                                                    <td>Rp. <?= rupiah($mas['masakan_harga']) ?></td>
                                                     <td><?= $query_kat['kategori_nama'] ?></td>
                                                     <td><?= $mas['masakan_deskripsi'] ?></td>
                                                     <td>

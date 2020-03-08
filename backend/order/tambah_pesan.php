@@ -32,7 +32,7 @@ if ($q_validasi > 0) {
     header('Location:../../menu.php');
     return false;
 } else {
-    $queryTambah = "INSERT INTO tb_detail_order VALUES('', '$no_order', '$a_no', '$masakan_id',  '$keterangan', '$jumlah', '$hartot', '$user_id', 0)";
+    $queryTambah = "INSERT INTO tb_detail_order VALUES(NULL, '$no_order', '$a_no', '$masakan_id',  '$keterangan', '$jumlah', '$hartot', '$user_id', 0)";
     $query = mysqli_query($conn, $queryTambah);
 
     if ($query > 0) {

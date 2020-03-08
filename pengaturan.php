@@ -3,6 +3,11 @@
 require 'templates/header.php';
 $q_pengaturan = mysqli_query($conn, "SELECT * FROM tb_pengaturan WHERE pengaturan_id = 1");
 $pengaturan = mysqli_fetch_assoc($q_pengaturan);
+
+if ($_SESSION['role'] != 1 && $_SESSION['role'] != 2) {
+    header('Location:hayuu.php');
+}
+
 ?>
 
 <!-- Header -->

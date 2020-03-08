@@ -8,6 +8,11 @@ if (isset($_GET['meja'])) {
 }
 
 $member = mysqli_query($conn, "SELECT * FROM tb_user WHERE role_id = 5");
+$ses = $_SESSION['role'];
+
+if ($ses == 1 || $ses == 3 || $ses == 5) {
+    header('Location:hayuu.php');
+}
 
 
 ?>
@@ -70,8 +75,8 @@ $member = mysqli_query($conn, "SELECT * FROM tb_user WHERE role_id = 5");
                                                                 <td><?= $i; ?></td>
                                                                 <td><?= $masakan['masakan_nama'] ?></td>
                                                                 <td><?= $orow['dorder_jumlah'] ?></td>
-                                                                <td><?= $masakan['masakan_harga'] ?></td>
-                                                                <td><?= $masakan['masakan_harga'] * $orow['dorder_jumlah'] ?></td>
+                                                                <td>Rp. <?= rupiah($masakan['masakan_harga']) ?></td>
+                                                                <td>Rp. <?= rupiah($masakan['masakan_harga'] * $orow['dorder_jumlah']) ?></td>
                                                             </tr>
 
                                                         <?php $i++;

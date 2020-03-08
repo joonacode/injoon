@@ -69,9 +69,9 @@ $transaksi = mysqli_query($conn, "SELECT * FROM tb_transaksi ORDER BY transaksi_
                                                     <td><?= $oq['order_meja'] ?></td>
                                                     <td><?= $usr['user_nama'] ?></td>
                                                     <td><?= date('d-m-Y H:i', $orow['transaksi_tanggal']) ?></td>
-                                                    <td>Rp. <?= $orow['transaksi_hartot'] ?></td>
+                                                    <td>Rp. <?= rupiah($orow['transaksi_hartot']) ?></td>
                                                     <td><?= $orow['transaksi_diskon'] ?>%</td>
-                                                    <td>Rp. <?= $orow['transaksi_totbar'] ?></td>
+                                                    <td>Rp. <?= rupiah($orow['transaksi_totbar']) ?></td>
                                                     <td>
                                                         <a href="print_struk.php?order_id=<?= $orow['order_id'] ?>" target="_blank" class="btn btn-primary text-white btn-sm text-small"><i class="fas fa-print"></i></a>
                                                     </td>

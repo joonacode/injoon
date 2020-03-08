@@ -3,6 +3,10 @@
 include 'templates/header.php';
 $user = mysqli_query($conn, "SELECT * FROM tb_user WHERE user_id != '$_SESSION[id]' ORDER BY user_id DESC");
 
+if ($_SESSION['role'] != 2) {
+    header('Location:hayuu.php');
+}
+
 
 ?>
 

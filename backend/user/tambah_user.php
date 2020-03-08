@@ -61,7 +61,7 @@ if ($cekEuyR['user_username'] == $username) {
             ';
             header('Location:../../user.php');
         } else {
-            $queryTambah = "INSERT INTO tb_user VALUES('', '$nama', '$telp',  '$username', '$email', '$alamat', '$hash_password', '$password', '$time', '$enkripsi_nama_foto', '$role')";
+            $queryTambah = "INSERT INTO tb_user VALUES(NULL, '$nama', '$telp',  '$username', '$email', '$alamat', '$hash_password', '$password', '$time', '$enkripsi_nama_foto', '$role')";
             $query = mysqli_query($conn, $queryTambah);
 
             if ($query > 0) {
@@ -100,7 +100,7 @@ if ($cekEuyR['user_username'] == $username) {
             ';
             header('Location:../../user.php');
         } else {
-            $queryTambah = "INSERT INTO tb_user VALUES('', '$nama', '$telp',  '$username', '$email', '$alamat', '$hash_password', '$password', '$time', 'default.png', '$role')";
+            $queryTambah = "INSERT INTO tb_user VALUES(NULL, '$nama', '$telp',  '$username', '$email', '$alamat', '$hash_password', '$password', '$time', 'default.png', '$role')";
             $query = mysqli_query($conn, $queryTambah);
 
             if ($query > 0) {

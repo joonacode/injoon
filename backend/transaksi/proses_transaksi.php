@@ -33,7 +33,7 @@ if ($uang < $total_bayar) {
 
     mysqli_query($conn, "UPDATE tb_meja set status = 0 WHERE meja_id = '$meja'");
 
-    $queryTambah = "INSERT INTO tb_transaksi VALUES('', '$member', '$order_id', '$tanggal', '$tanggal2', '$total_harga', '$diskon', '$total_bayar', '$uang', '$kembalian')";
+    $queryTambah = "INSERT INTO tb_transaksi VALUES(NULL, '$member', '$order_id', '$tanggal', '$tanggal2', '$total_harga', '$diskon', '$total_bayar', '$uang', '$kembalian')";
     $query = mysqli_query($conn, $queryTambah);
     if ($query > 0) {
         $_SESSION['pesan'] = '

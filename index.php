@@ -17,7 +17,7 @@ $best_seller = mysqli_query($conn, "SELECT * FROM tb_best_seller ORDER BY jumlah
             <?= nl2br($pengaturan['pengaturan_deskripsiWebsite']) ?>
         </p>
         <a href="#best-seller" class="btn btn-get-started main shadow-sm mr-3 mt-3" data-aos="zoom-in-up" data-aos-duration="600">
-            Menu Unggulan
+            Menu Populer
         </a>
         <a href="menu.php" class="btn btn-get-started shadow-sm mt-3" data-aos="zoom-in-up" data-aos-duration="600">
             Semua Menu
@@ -45,7 +45,7 @@ $best_seller = mysqli_query($conn, "SELECT * FROM tb_best_seller ORDER BY jumlah
     <div class="bg-best-seller"></div>
     <section class="section-best-seller" id="best-seller">
         <div class="container">
-            <h1 class="text-center text-white" data-aos="zoom-in-up" data-aos-duration="500">Best Seller</h1>
+            <h1 class="text-center text-white" data-aos="zoom-in-up" data-aos-duration="500">Menu Populer</h1>
             <div class="row">
                 <?php
                 $duration = [700, 900, 1100, 1300];
@@ -66,11 +66,11 @@ $best_seller = mysqli_query($conn, "SELECT * FROM tb_best_seller ORDER BY jumlah
                                 <p class="menu-harga mt-1">
                                     <?php if ($masakBest['masakan_ds'] == 1) : ?>
 
-                                        <span class="text-danger harga-diskon-br">Rp. <?= $masakBest['masakan_harga'] ?></span>
-                                        <span style="font-size:10px;"><s>Rp. <?= $masakBest['masakan_hsd'] ?></s></span>
+                                        <span class="text-danger harga-diskon-br">Rp. <?= rupiah($masakBest['masakan_harga']) ?></span>
+                                        <span style="font-size:10px;"><s>Rp. <?= rupiah($masakBest['masakan_hsd']) ?></s></span>
                                         <span class="badge badge-success float-right">- <?= $masakBest['masakan_diskon'] ?>%</span>
                                     <?php else : ?>
-                                        Rp. <?= $masakBest['masakan_harga'] ?>
+                                        Rp. <?= rupiah($masakBest['masakan_harga']) ?>
                                     <?php endif; ?>
                                 </p>
                                 <?php if (isset($_SESSION['login'])) : ?>
@@ -103,9 +103,11 @@ $best_seller = mysqli_query($conn, "SELECT * FROM tb_best_seller ORDER BY jumlah
                     <div class="card shadow-sm border-0" data-aos="zoom-in-up" data-aos-duration="700">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-3 profile-testimoni text-center">
+                                <div class="col-lg-3 col-md-12 col-ms-12 profile-testimoni text-center">
                                     <img src="frontend/images/profile.png" class="rounded-circle" alt="">
-                                    <p>James</p>
+                                    <p>James <br>
+                                        <spam style="font-size: 10px">-- CEO JSTUDIO --</spam>
+                                    </p>
                                 </div>
                                 <div class="col">
                                     <div class="stars text-warning">
@@ -116,7 +118,8 @@ $best_seller = mysqli_query($conn, "SELECT * FROM tb_best_seller ORDER BY jumlah
                                         <i class="fas fa-star-half"></i>
                                     </div>
                                     <p class="mt-3 testimoni-desk" style="font-weight:300">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta impedit dicta iure natus beatae laboriosam, nam culpa! Corrupti, nisi architecto.
+                                        Restoran terbaik yang pernah saya kunjungi pelayanannya baik, tempatnya bersih, tersedia wifi gratis
+                                        Menunya banyak, murah-murah, dan yang paling terbaik rasanya enak
                                     </p>
                                 </div>
                             </div>
@@ -186,7 +189,7 @@ $best_seller = mysqli_query($conn, "SELECT * FROM tb_best_seller ORDER BY jumlah
                     <a href="#about" class="btn btn-sm text-small btn-secondary mb-1">About</a>
                     <a href="#kontak-kami" class="btn btn-sm text-small btn-secondary mb-1">Kontak</a>
                     <a href="#testimoni" class="btn btn-sm text-small btn-secondary mb-1">Testimoni</a>
-                    <a href="#best-seller" class="btn btn-sm text-small btn-secondary mb-1">Menu Terlaris</a>
+                    <a href="#best-seller" class="btn btn-sm text-small btn-secondary mb-1">Menu Populer</a>
                 </div>
                 <div class="col-md-3 mb-3 mx-auto">
                     <h4>Social Media</h4>

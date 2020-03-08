@@ -52,11 +52,11 @@ $q_struk = mysqli_query($conn, "SELECT * FROM tb_transaksi ORDER BY transaksi_id
                                         <tr>
                                             <td><?= $row['order_id'] ?></td>
                                             <td><?= $oq['order_meja'] ?></td>
-                                            <td><?= $usr['user_nama'] ?></td>
+                                            <td><?= $usr['user_username'] ?></td>
                                             <td><?= date('d-m-Y h:i', $row['transaksi_tanggal']) ?></td>
-                                            <td>Rp. <?= $row['transaksi_hartot'] ?></td>
+                                            <td>Rp. <?= rupiah($row['transaksi_hartot']) ?></td>
                                             <td><?= $row['transaksi_diskon'] ?>%</td>
-                                            <td>Rp. <?= $row['transaksi_totbar'] ?></td>
+                                            <td>Rp. <?= rupiah($row['transaksi_totbar']) ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -69,7 +69,7 @@ $q_struk = mysqli_query($conn, "SELECT * FROM tb_transaksi ORDER BY transaksi_id
     </div>
 
     <script>
-        // window.print();
+        window.print();
     </script>
 </body>
 

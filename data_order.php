@@ -2,8 +2,10 @@
 
 include 'templates/header.php';
 $order = mysqli_query($conn, "SELECT * FROM tb_order WHERE order_status = 0 ORDER BY order_id DESC");
-
-
+$ses = $_SESSION['role'];
+if ($ses == 1 || $ses == 4 || $ses == 5) {
+    header('Location:hayuu.php');
+}
 ?>
 
 <!-- Header -->
@@ -66,7 +68,7 @@ $order = mysqli_query($conn, "SELECT * FROM tb_order WHERE order_status = 0 ORDE
                                                     <td><?= $orow['order_id'] ?></td>
                                                     <td><?= $orow['order_meja'] ?></td>
                                                     <td><?= date('d-m-Y H:i', $orow['order_tanggal']) ?></td>
-                                                    <td>Rp. <?= $hartot['hartot'] ?></td>
+                                                    <td>Rp. <?= rupiah($hartot['hartot']) ?></td>
                                                     <td><?= $orow['order_keterangan'] ?></td>
 
                                                     <td>
@@ -199,15 +201,15 @@ $order = mysqli_query($conn, "SELECT * FROM tb_order WHERE order_status = 0 ORDE
                                                 <td><?= $no ?></td>
                                                 <td><?= $q_masakan['masakan_nama'] ?></td>
                                                 <td><?= $list_row['dorder_keterangan'] ?></td>
-                                                <td><?= $q_masakan['masakan_harga'] ?></td>
+                                                <td>Rp. <?= rupiah($q_masakan['masakan_harga']) ?></td>
                                                 <td><?= $list_row['dorder_jumlah'] ?></td>
-                                                <td><?= $q_masakan['masakan_harga'] * $list_row['dorder_jumlah'] ?></td>
+                                                <td>Rp. <?= rupiah($q_masakan['masakan_harga'] * $list_row['dorder_jumlah']) ?></td>
                                             </tr>
                                         <?php $no++;
                                         endforeach; ?>
                                         <tr>
                                             <td colspan="7">
-                                                Total Harga : Rp. <?= $hartot['hartot'] ?>
+                                                Total Harga : Rp. <?= rupiah($hartot['hartot']) ?>
                                             </td>
                                         </tr>
                                     </tbody>

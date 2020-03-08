@@ -26,11 +26,11 @@ $place_foto = $_FILES['foto']['tmp_name'];
 $nama_foto = $_FILES['foto']['name'];
 $enkripsi_nama_foto = time() . '_InJoon_' . $nama_foto;
 if (move_uploaded_file($place_foto, '../../frontend/images/masakan/' . $enkripsi_nama_foto)) {
-    $queryTambah = "INSERT INTO tb_masakan VALUES('', '$nama', '$diskon_status', '$harga_sebelum_diskon', '$diskonnya', '$harganya',  '$deskripsi', '$kategori', '$enkripsi_nama_foto')";
+    $queryTambah = "INSERT INTO tb_masakan VALUES(NULL, '$nama', '$diskon_status', '$harga_sebelum_diskon', '$diskonnya', '$harganya',  '$deskripsi', '$kategori', '$enkripsi_nama_foto')";
     $query = mysqli_query($conn, $queryTambah);
     $q_lastId = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DESC LIMIT 1");
     $lastId = mysqli_fetch_assoc($q_lastId);
-    mysqli_query($conn, "INSERT INTO tb_best_seller VALUES('', '$lastId[masakan_id]', 0)");
+    mysqli_query($conn, "INSERT INTO tb_best_seller VALUES(NULL, '$lastId[masakan_id]', 0)");
     if ($query > 0) {
         $_SESSION['pesan'] = '
             <div class="alert alert-success mb-2 alert-dismissible text-small " role="alert">

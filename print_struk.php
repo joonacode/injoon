@@ -4,6 +4,8 @@ require 'backend/config.php';
 $id = $_GET['order_id'];
 $q_struk = mysqli_query($conn, "SELECT * FROM tb_transaksi WHERE order_id = '$id'");
 $struk = mysqli_fetch_assoc($q_struk);
+$q_mem = mysqli_query($conn, "SELECT * FROM tb_user WHERE user_id = '$struk[user_id]'");
+$mem = mysqli_fetch_assoc($q_mem);
 $detail_order = mysqli_query($conn, "SELECT * FROM tb_detail_order WHERE order_id  = '$id'");
 $q_hartot = mysqli_query($conn, "SELECT sum(dorder_hartot) as hartot FROM tb_detail_order WHERE order_id = '$id'");
 $hartot = mysqli_fetch_assoc($q_hartot);
@@ -38,6 +40,7 @@ $hartot = mysqli_fetch_assoc($q_hartot);
 
                     <div class="col-md-12 py-2" style="border-top:solid 1px #000;border-bottom:solid 1px #000">
                         <p class="mb-1">
+                            <span>Member : <?= $struk['user_id'] == 0 ? 'Tidak' : $mem['user_username'] ?></span><br>
                             <span><?= $struk['order_id'] ?></span>
                             <span class="float-right">
                                 <span><?= date('d-m-Y h:i', $struk['transaksi_tanggal']) ?></span>
@@ -63,13 +66,13 @@ $hartot = mysqli_fetch_assoc($q_hartot);
                                     <tr>
                                         <td><?= $masakan['masakan_nama'] ?></td>
                                         <td><?= $do['dorder_jumlah'] ?></td>
-                                        <td>Rp. <?= $masakan['masakan_harga'] ?></td>
-                                        <td>Rp. <?= $do['dorder_hartot'] ?></td>
+                                        <td>Rp. <?= rupiah($masakan['masakan_harga']) ?></td>
+                                        <td>Rp. <?= rupiah($do['dorder_hartot']) ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                                 <tr style="border-top:solid 1px #000;border-bottom:solid 1px #000">
                                     <td colspan="3" align="right">Harga Jual :</td>
-                                    <td><?= $struk['transaksi_hartot'] ?></td>
+                                    <td><?= rupiah($struk['transaksi_hartot']) ?></td>
                                 </tr>
                                 <tr>
                                     <td colspan="3" align="right">Diskon :</td>
@@ -77,15 +80,15 @@ $hartot = mysqli_fetch_assoc($q_hartot);
                                 </tr>
                                 <tr>
                                     <td colspan="3" align="right">Total :</td>
-                                    <td><?= $struk['transaksi_totbar'] ?></td>
+                                    <td><?= rupiah($struk['transaksi_totbar']) ?></td>
                                 </tr>
                                 <tr>
                                     <td colspan="3" align="right">Tunai :</td>
-                                    <td><?= $struk['transaksi_uang'] ?></td>
+                                    <td><?= rupiah($struk['transaksi_uang']) ?></td>
                                 </tr>
                                 <tr>
                                     <td colspan="3" align="right">Kembalian :</td>
-                                    <td><?= $struk['transaksi_kembalian'] ?></td>
+                                    <td><?= rupiah($struk['transaksi_kembalian']) ?></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -95,14 +98,14 @@ $hartot = mysqli_fetch_assoc($q_hartot);
                         <span class="text-uppercase">di</span><br>
                         <span class="text-uppercase">=== INJOON RESTAURANT ===</span><br>
                         <span class="text-uppercase">WA 0821 2160 9346 Call 0811</span><br>
-                        <span class="text-uppercase">Email : inventory@gmail.com</span><br>
+                        <span class="text-uppercase">Email : injoon@gmail.com</span><br>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <script>
-        // window.print();
+        window.print();
     </script>
 </body>
 

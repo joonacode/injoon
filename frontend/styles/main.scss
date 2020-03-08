@@ -1,3 +1,8 @@
+/*!
+ * Injoon Restaurant v0.5
+ * Copyright 2020 JoonaCode
+ */
+
 html {
     scroll-behavior: smooth;
 }
@@ -145,6 +150,11 @@ header {
         color: #549494;
 
     }
+}
+
+.card-img-top {
+    -ms-interpolation-mode: nearest-neighbor;
+    image-rendering: pixelated;
 }
 
 .bg-best-seller {
