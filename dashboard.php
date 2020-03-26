@@ -17,6 +17,8 @@ $orderBelumBayar = mysqli_fetch_assoc($q_orderBelumBayar);
 $q_pendapatan = mysqli_query($conn, "SELECT SUM(transaksi_totbar) as totbar FROM  tb_transaksi WHERE transaksi_nganTanggal = '$d'");
 $pendapatan = mysqli_fetch_assoc($q_pendapatan);
 
+$q_best_menu = mysqli_query($conn, "SELECT * FROM tb_best_seller ORDER BY jumlah_jual DESC LIMIT 10");
+
 ?>
 
 <!-- Header -->
@@ -27,9 +29,7 @@ $pendapatan = mysqli_fetch_assoc($q_pendapatan);
                 <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
             </ol>
         </nav>
-
         <h1>Dashboard</h1>
-
     </div>
 </section>
 
@@ -42,39 +42,39 @@ $pendapatan = mysqli_fetch_assoc($q_pendapatan);
                         <div class="card">
                             <div class="card-body">
                                 <img src="frontend/images/profile/<?= $user['user_foto'] ?>" class="img-thumbnail float-left mr-2" width="50" alt="">
-                                <b>Hallo <?= $_SESSION['nama'] ?></b><br>
+                                <b>Hallo <?= $user['user_nama'] ?></b><br>
                                 <span class="mb-0 text-small">Login sebagai <?= $get_role['role_nama'] ?> | <a href="profile.php">Profile</a></span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-5 col-md-12 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <b>Total Penjualan Hari : <?= $d ?></b><br>
-
-                                <span class="mr-1 btn-sm text-small btn-success"><?= $orderBayar['sudah_bayar'] ?> Sudah Bayar <i class="fas fa-check text-small"></i> </span>
-                                <span class="border-right border-left"></span>
-                                <span class="mr-1 btn-sm text-small btn-danger"><?= $orderBelumBayar['belum_bayar'] ?> Belum Bayar <i class="fas fa-times text-small"></i> </span>
-
+                    <?php if ($_SESSION['role'] != 5) : ?>
+                        <div class="col-lg-5 col-md-12 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <b>Total Penjualan Hari : <?= $d ?></b><br>
+                                    <span class="mr-1 btn-sm text-small btn-success"><?= $orderBayar['sudah_bayar'] ?> Sudah Bayar <i class="fas fa-check text-small"></i> </span>
+                                    <span class="border-right border-left"></span>
+                                    <span class="mr-1 btn-sm text-small btn-danger"><?= $orderBelumBayar['belum_bayar'] ?> Belum Bayar <i class="fas fa-times text-small"></i> </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-3 col-md-12 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <b>Total Pendapatan Hari Ini</b>
-                                <p class="mb-0">Rp. <?= $pendapatan['totbar'] == 0 ? '0' : rupiah($pendapatan['totbar']) ?></p>
+                        <div class="col-lg-3 col-md-12 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <b>Total Pendapatan Hari Ini</b>
+                                    <p class="mb-0">Rp. <?= $pendapatan['totbar'] == 0 ? '0' : rupiah($pendapatan['totbar']) ?></p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <b>Total Menu</b>
-                                <p class="mb-0"><?= $totalMenu['total_menu'] ?> Menu</p>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <b>Total Menu</b>
+                                    <p class="mb-0"><?= $totalMenu['total_menu'] ?> Menu</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    <?php endif; ?>
                     <?php if ($_SESSION['role'] == 2 || $_SESSION['role'] == 1) : ?>
                         <div class="col-lg-3 col-md-6 mb-3">
                             <div class="card">
@@ -89,21 +89,56 @@ $pendapatan = mysqli_fetch_assoc($q_pendapatan);
                         <div class="col-lg-3 col-md-6 mb-3">
                             <div class="card">
                                 <div class="card-body">
-                                    <b>Total Pelanggan</b><br>
-                                    <span class="mr-1 btn-sm text-small btn-warning text-white"><?= $totalPelanggan['total_pelanggan'] ?> Pelanggan <i class="fas fa-user text-small"></i> </span>
+                                    <b>Total Member</b><br>
+                                    <span class="mr-1 btn-sm text-small btn-warning text-white"><?= $totalPelanggan['total_pelanggan'] ?> Member <i class="fas fa-user text-small"></i> </span>
                                 </div>
                             </div>
                         </div>
                     <?php endif; ?>
-                    <div class="col-lg-3 col-md-6 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <b>Laporan</b><br>
-                                <a href="laporan.php" class="btn btn-primary btn-sm text-small btn-block"> Lihat Laporan <i class="fas fa-eye"></i></a>
+                    <?php if ($_SESSION['role'] != 5) : ?>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <b>Laporan</b><br>
+                                    <a href="laporan.php" class="btn btn-primary btn-sm text-small btn-block"> Lihat Laporan <i class="fas fa-eye"></i></a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    <?php endif; ?>
+                    <?php if ($_SESSION['role'] == 1 || $_SESSION['role'] == 2) : ?>
 
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body" style="height: 300px;overflow-y:scroll">
+                                    <b>TOP 10 Maskan Terlaris</b><br><br>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Nama Menu</th>
+                                                    <th>Jumlah Terjual</th>
+                                                </tr>
+                                                <?php $a = 1;
+                                                foreach ($q_best_menu as $bm) :
+                                                    $q_menu = mysqli_query($conn, "SELECT * FROM tb_masakan WHERE masakan_id = '$bm[masakan_id]'");
+                                                    $menu = mysqli_fetch_assoc($q_menu);
+
+                                                ?>
+                                                    <tr>
+                                                        <td><?= $a ?></td>
+                                                        <td><?= $menu['masakan_nama'] ?></td>
+                                                        <td><?= $bm['jumlah_jual'] ?></td>
+                                                    </tr>
+                                                <?php $a++;
+                                                endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
 
 
                 </div>

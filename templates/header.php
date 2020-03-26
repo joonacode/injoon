@@ -4,7 +4,7 @@ require 'backend/config.php';
 // Pengecekan jika belum login
 if ($_SESSION['login'] != true) {
     //Halaman tujuam
-    header('Location:hayuu.php');
+    header('Location:login.php');
 }
 $role = mysqli_query($conn, "SELECT * FROM tb_role WHERE role_id = '$_SESSION[role]'");
 $get_role = mysqli_fetch_assoc($role);
@@ -58,6 +58,7 @@ $pengaturan = mysqli_fetch_assoc($q_pengaturan);
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item text-small" href="masakan.php">Masakan</a>
                                 <a class="dropdown-item text-small" href="user.php">User</a>
+                                <a class="dropdown-item text-small" href="kategori.php">Kategori</a>
 
                             </div>
                         </li>
@@ -97,11 +98,17 @@ $pengaturan = mysqli_fetch_assoc($q_pengaturan);
                         <li class="nav-item mx-md-2">
                             <a href="laporan.php" class="nav-link">Laporan</a>
                         </li>
+                        <li class="nav-item mx-md-2">
+                            <a href="user.php" class="nav-link">Tambah Member</a>
+                        </li>
 
                         <!-- Menu Role Kasir -->
                     <?php elseif ($_SESSION['role'] == 4) : ?>
                         <li class="nav-item mx-md-2">
                             <a href="entri_transaksi.php" class="nav-link">Entri Transaksi</a>
+                        </li>
+                        <li class="nav-item mx-md-2">
+                            <a href="user.php" class="nav-link">Tambah Member</a>
                         </li>
                         <li class="nav-item mx-md-2">
                             <a href="laporan.php" class="nav-link">Laporan</a>

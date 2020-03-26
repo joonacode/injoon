@@ -91,6 +91,7 @@ $transaksi = mysqli_query($conn, "SELECT * FROM tb_transaksi ORDER BY transaksi_
         </div>
     </div>
 </section>
+
 <?php require 'templates/footer_text.php' ?>
 
 <script src="frontend/libraries/jquery/jquery-3.4.1.min.js"></script>

@@ -4,7 +4,7 @@ include 'templates/header.php';
 $order = mysqli_query($conn, "SELECT * FROM tb_order WHERE order_status = 0 ORDER BY order_id DESC");
 $ses = $_SESSION['role'];
 if ($ses == 1 || $ses == 4 || $ses == 5) {
-    header('Location:hayuu.php');
+    header('Location:login.php');
 }
 ?>
 

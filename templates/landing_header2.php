@@ -54,25 +54,28 @@ $pengaturan = mysqli_fetch_assoc($q_pengaturan);
                     </li>
                 </ul>
                 <?php if (isset($_SESSION['login'])) : ?>
-
                     <div class="ml-auto">
                         <a href="dashboard.php" class="btn btn-sm text-white bg-secondary shadow btn-sm"><i class="fas fa-home"></i></a>
                         <?php
                         $ses = $_SESSION['role'];
                         if ($ses == 2 || $ses == 3) :
-
                         ?>
                             <button type="button" data-toggle="modal" data-target="#modalKeranjang" class="btn btn-sm shadow text-white bg-cus-dark btn-sm"><i class="fas fa-shopping-bag"></i></button>
                     </div>
                 <?php endif; ?>
-            <?php endif; ?>
 
+            <?php else : ?>
+                <div class="ml-auto">
+                    <a href="login.php" class="btn btn-sm text-white px-3 bg-secondary text-small shadow btn-sm">Login <i class="fas fa-sign-in-alt"></i></a>
+                </div>
+            <?php endif; ?>
             </div>
 
         </div>
     </nav>
-    <?php if (isset($_SESSION['login'])) : ?>
 
+    <!-- Jika user belum login jangan tampilkan bagian bawah ini -->
+    <?php if (isset($_SESSION['login'])) : ?>
         <div class="modal fade" id="modalKeranjang" tabindex="-1" role="dialog" aria-labelledby="modalKeranjangLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl" role="document">
 
@@ -84,12 +87,17 @@ $pengaturan = mysqli_fetch_assoc($q_pengaturan);
                         </button>
                     </div>
                     <?php
+                    //Menghitung jumlah orderan
                     $query_order = mysqli_query($conn, "SELECT count(order_id) as no_order FROM tb_order");
                     $order = mysqli_fetch_assoc($query_order);
+                    //Jumlah orderan tadi ditambah dengan  1
                     $no_order = $order['no_order'] + 1;
+                    //Pilih meja yang belum ditempati
                     $no_meja = mysqli_query($conn, "SELECT * FROM tb_meja WHERE status != 1");
+                    // pilih semua pesanan dimana order_id = dengan orderan sebelumnya + 1
                     $list_pesanan = mysqli_query($conn, "SELECT * FROM tb_detail_order WHERE order_id = 'ORD000$no_order' AND user_id = '$_SESSION[id]'");
                     $nono = 'ORD000' . $no_order;
+                    //untuk mencari harga total dari pesanan yang sudah di pesan
                     $q_hartot = mysqli_query($conn, "SELECT sum(dorder_hartot) as hartot FROM tb_detail_order WHERE order_id = '$nono'");
                     $hartot = mysqli_fetch_assoc($q_hartot);
                     ?>

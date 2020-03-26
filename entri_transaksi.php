@@ -11,7 +11,7 @@ $member = mysqli_query($conn, "SELECT * FROM tb_user WHERE role_id = 5");
 $ses = $_SESSION['role'];
 
 if ($ses == 1 || $ses == 3 || $ses == 5) {
-    header('Location:hayuu.php');
+    header('Location:login.php');
 }
 
 
@@ -180,6 +180,7 @@ if ($ses == 1 || $ses == 3 || $ses == 5) {
         </div>
     </div>
 </section>
+
 <?php require 'templates/footer_text.php' ?>
 
 <script src="frontend/libraries/jquery/jquery-3.4.1.min.js"></script>

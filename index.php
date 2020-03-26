@@ -1,7 +1,9 @@
 <?php
 
+//Untuk memanggil file (landing_header.php)
 require 'templates/landing_header.php';
 
+//Menampilkan menu yang paling banyak di beli, tampilkan cuman 4 menu
 $best_seller = mysqli_query($conn, "SELECT * FROM tb_best_seller ORDER BY jumlah_jual DESC LIMIT 4");
 
 ?>
@@ -26,6 +28,7 @@ $best_seller = mysqli_query($conn, "SELECT * FROM tb_best_seller ORDER BY jumlah
 
 </header>
 <main>
+    <!-- About -->
     <section class="section-about" id="about">
         <div class="container">
             <div class="row">
@@ -42,6 +45,7 @@ $best_seller = mysqli_query($conn, "SELECT * FROM tb_best_seller ORDER BY jumlah
         </div>
         <div class="its-hr"></div>
     </section>
+    <!-- Menu Populer -->
     <div class="bg-best-seller"></div>
     <section class="section-best-seller" id="best-seller">
         <div class="container">
@@ -93,6 +97,7 @@ $best_seller = mysqli_query($conn, "SELECT * FROM tb_best_seller ORDER BY jumlah
             </div>
         </div>
     </section>
+    <!-- Testimoni -->
     <section class="section-testimoni" id="testimoni">
         <div class="container">
             <h1 data-aos="zoom-in-up" data-aos-duration="500">
@@ -130,6 +135,7 @@ $best_seller = mysqli_query($conn, "SELECT * FROM tb_best_seller ORDER BY jumlah
 
         </div>
     </section>
+    <!-- Kontak Kami -->
     <section class="section-contact" id="kontak-kami">
         <div class="container">
             <div class="row">
@@ -172,7 +178,7 @@ $best_seller = mysqli_query($conn, "SELECT * FROM tb_best_seller ORDER BY jumlah
             </div>
         </div>
     </section>
-
+    <!-- Footer -->
     <section class="section-footer">
         <div class="container">
             <div class="row">

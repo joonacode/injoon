@@ -5,7 +5,7 @@ $q_pengaturan = mysqli_query($conn, "SELECT * FROM tb_pengaturan WHERE pengatura
 $pengaturan = mysqli_fetch_assoc($q_pengaturan);
 
 if ($_SESSION['role'] != 1 && $_SESSION['role'] != 2) {
-    header('Location:hayuu.php');
+    header('Location:login.php');
 }
 
 ?>

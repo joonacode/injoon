@@ -1,10 +1,14 @@
 <?php
 
 include 'templates/header.php';
-$user = mysqli_query($conn, "SELECT * FROM tb_user WHERE user_id != '$_SESSION[id]' ORDER BY user_id DESC");
-
 if ($_SESSION['role'] != 2) {
-    header('Location:hayuu.php');
+    $user = mysqli_query($conn, "SELECT * FROM tb_user WHERE user_id != '$_SESSION[id]' AND role_id = '5' ORDER BY user_id DESC");
+} else {
+    $user = mysqli_query($conn, "SELECT * FROM tb_user WHERE user_id != '$_SESSION[id]' ORDER BY user_id DESC");
+}
+
+if ($_SESSION['role'] != 2 && $_SESSION['role'] != 3 && $_SESSION['role'] != 4) {
+    header('Location:login.php');
 }
 
 
@@ -75,8 +79,10 @@ if ($_SESSION['role'] != 2) {
                                                     <td><?= $urRow['user_username'] ?></td>
                                                     <td><?= $role['role_nama'] ?></td>
                                                     <td>
-                                                        <a href="backend/user/hapus_user.php?id=<?= $urRow['user_id'] ?>" class="btn btn-danger btn-sm text-small" onclick="return confirm('Yakin ingin menghapus data ini ?')"><i class="fas fa-trash"></i></a>
-                                                        <button type="button" class="btn btn-sm btn-secondary text-small text-white" data-toggle="modal" data-target="#ubahUser_<?= $urRow['user_id'] ?>"><i class="fas fa-pen"></i></button>
+                                                        <?php if ($_SESSION['role'] == 2) : ?>
+                                                            <a href="backend/user/hapus_user.php?id=<?= $urRow['user_id'] ?>" class="btn btn-danger btn-sm text-small" onclick="return confirm('Yakin ingin menghapus data ini ?')"><i class="fas fa-trash"></i></a>
+                                                            <button type="button" class="btn btn-sm btn-secondary text-small text-white" data-toggle="modal" data-target="#ubahUser_<?= $urRow['user_id'] ?>"><i class="fas fa-pen"></i></button>
+                                                        <?php endif; ?>
                                                     </td>
                                                 </tr>
                                             <?php $i++;
@@ -128,10 +134,15 @@ if ($_SESSION['role'] != 2) {
                             <div class="form-group">
                                 <label for="">Role</label>
                                 <select name="role" class="form-control text-small">
-                                    <option value="2">Admin</option>
-                                    <option value="3">Waiter</option>
-                                    <option value="4">Kasir</option>
-                                    <option value="5">Member</option>
+                                    <?php if ($_SESSION['role'] != 2) : ?>
+                                        <option value="5">Member</option>
+                                    <?php else : ?>
+                                        <option value="2">Admin</option>
+                                        <option value="3">Waiter</option>
+                                        <option value="4">Kasir</option>
+                                        <option value="5">Member</option>
+
+                                    <?php endif; ?>
                                 </select>
                             </div>
                         </div>
@@ -235,6 +246,7 @@ if ($_SESSION['role'] != 2) {
         </div>
     </div>
 <?php endforeach; ?>
+
 <?php require 'templates/footer_text.php' ?>
 
 <script src="frontend/libraries/jquery/jquery-3.4.1.min.js"></script>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2020 at 04:45 PM
+-- Generation Time: Mar 26, 2020 at 12:39 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -42,9 +42,9 @@ INSERT INTO `tb_best_seller` (`bs_id`, `masakan_id`, `jumlah_jual`) VALUES
 (1, 1, 0),
 (2, 2, 0),
 (3, 3, 0),
-(4, 4, 0),
+(4, 4, 2),
 (5, 5, 2),
-(6, 6, 10),
+(6, 6, 14),
 (7, 7, 0),
 (8, 16, 2),
 (9, 19, 0),
@@ -80,7 +80,9 @@ INSERT INTO `tb_detail_order` (`dorder_id`, `check_available`, `order_id`, `masa
 (82, 2, 'ORD0002', 21, '', 1, 42500, 15, 1),
 (83, 2, 'ORD0002', 6, '', 10, 180000, 15, 1),
 (84, 2, 'ORD0002', 5, '', 2, 10000, 15, 1),
-(85, 3, 'ORD0003', 20, '', 1, 15000, 15, 1);
+(85, 3, 'ORD0003', 20, '', 1, 15000, 15, 1),
+(88, 4, 'ORD0004', 6, 'Jangan pake sambel', 2, 18000, 15, 1),
+(89, 4, 'ORD0004', 4, 'Awkwkwk', 1, 20000, 15, 1);
 
 -- --------------------------------------------------------
 
@@ -90,18 +92,17 @@ INSERT INTO `tb_detail_order` (`dorder_id`, `check_available`, `order_id`, `masa
 
 CREATE TABLE `tb_kategori` (
   `kategori_id` int(11) NOT NULL,
-  `kategori_nama` varchar(50) NOT NULL,
-  `kategori_link` varchar(50) NOT NULL
+  `kategori_nama` longtext CHARACTER SET utf8mb4 NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tb_kategori`
 --
 
-INSERT INTO `tb_kategori` (`kategori_id`, `kategori_nama`, `kategori_link`) VALUES
-(1, 'Makanan', ''),
-(2, 'Minuman', ''),
-(3, 'Desert', '');
+INSERT INTO `tb_kategori` (`kategori_id`, `kategori_nama`) VALUES
+(1, 'Makanan'),
+(2, 'Minuman'),
+(3, 'Desert');
 
 -- --------------------------------------------------------
 
@@ -188,7 +189,8 @@ CREATE TABLE `tb_order` (
 INSERT INTO `tb_order` (`order_id`, `order_meja`, `order_tanggal`, `order_nganTanggal`, `user_id`, `order_keterangan`, `order_status`) VALUES
 ('ORD0001', 2, 1583585823, '07-03-2020', 15, '', '1'),
 ('ORD0002', 6, 1583586689, '07-03-2020', 15, '', '1'),
-('ORD0003', 2, 1583594954, '07-03-2020', 15, '', '1');
+('ORD0003', 2, 1583594954, '07-03-2020', 15, '', '1'),
+('ORD0004', 3, 1585221873, '26-03-2020', 15, 'Cepet yak', '1');
 
 -- --------------------------------------------------------
 
@@ -211,7 +213,7 @@ CREATE TABLE `tb_pengaturan` (
 --
 
 INSERT INTO `tb_pengaturan` (`pengaturan_id`, `pengaturan_headerWebsite`, `pengaturan_deskripsiWebsite`, `pengaturan_tentang`, `pengaturan_footer`, `pengaturan_logo`, `pengaturan_favicon`) VALUES
-(1, 'Injoon Restaurant', 'Restaurant kelas atas dengan harga\r\nkelas bawah. Menyediakan berbagai\r\nhidangan local lezat dan menarik.', 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perferendis consequatur ex, veritatis odit aliquam ad, illum quis omnis quas, placeat natus soluta assumenda. Ullam incidunt maiores labore. Eum aliquam pariatur fugiat, facilis ratione voluptas labore impedit culpa recusandae deserunt architecto fuga quos ipsa iure rem quasi nobis ab aut.', 'Copyright Â© 2020 Injoon Restaurant | Template By JoonaCode', '1583560085_InJoon_logo.png', '1583560085_InJoon_favicon.ico');
+(1, 'Injoon Restaurant', 'Restaurant kelas atas dengan harga\r\nkelas bawah. Menyediakan berbagai\r\nhidangan local lezat dan menarik.', 'Injoon restaurant didirikan pada tanggal 12 Desember 2012 pukul 12.00. Injoon restaurant didirikan oleh dua orang chef terkenal yaitu iin dan joona. Nama Injoon restaurant diambil dari gabungan nama iin dan joona yang artinya itu restoran iin dan joona. Injoon restaurant telah dikenal oleh masyarakat sebagai restoran dengan tempat mewah tetapi mempunyai harga murah, tidak aneh bila setiap hari dipadati pembeli.', 'Copyright Â© 2020 Injoon Restaurant | Template By JoonaCode', '1583560085_InJoon_logo.png', '1583560085_InJoon_favicon.ico');
 
 -- --------------------------------------------------------
 
@@ -261,7 +263,8 @@ CREATE TABLE `tb_transaksi` (
 INSERT INTO `tb_transaksi` (`transaksi_id`, `user_id`, `order_id`, `transaksi_tanggal`, `transaksi_nganTanggal`, `transaksi_hartot`, `transaksi_diskon`, `transaksi_totbar`, `transaksi_uang`, `transaksi_kembalian`) VALUES
 (10, 0, 'ORD0001', 1583586631, '07-03-2020', 30000, 0, 30000, 40000, 10000),
 (11, 0, 'ORD0002', 1583586800, '07-03-2020', 311500, 10, 280350, 300000, 19650),
-(12, 0, 'ORD0003', 1583594980, '07-03-2020', 15000, 0, 15000, 15000, 0);
+(12, 0, 'ORD0003', 1583594980, '07-03-2020', 15000, 0, 15000, 15000, 0),
+(13, 21, 'ORD0004', 1585221911, '26-03-2020', 38000, 10, 34200, 50000, 15800);
 
 -- --------------------------------------------------------
 
@@ -292,7 +295,8 @@ INSERT INTO `tb_user` (`user_id`, `user_nama`, `user_telp`, `user_username`, `us
 (16, 'Rizal Pratama', '087822402343', 'rizal', 'rial@gmail.com', '', '$2y$10$l35HVvAbiwZ.eoll4Tx3IeD2IbRwwJTmtORVK1pSylSYCGS9EQlK6', 'asd', '1582690436', 'default.png', '4'),
 (17, 'Ilham Alvin S', '09238723', 'alvin', 'alvin@gmail.com', '', '$2y$10$nr8kZ61GLwpzPS7s1CfaaOhzl4U74737BzqBVjAtcxDZXwY5iDrgK', 'asd', '1582690463', 'default.png', '3'),
 (18, 'Alyssa', '088765654', 'alyssa', 'alyssa@gmail.com', 'Ny Citys', '$2y$10$7UD9TZxOifiNNJVdoPRk9eEgPov3eNTwkWOUXB5Ixka4Bh9MLA6uu', 'asd', '1582896958', '1583595638_InJoon_1583595612_InJoon_default.png', '1'),
-(21, 'Budi', '098923', 'budi', 'budi@budi.com', 'asdasd', '$2y$10$nX09shuqYibKKSs6YxuHgOUuBc81amYCUEcvSsmxp/FIoz9kXsMAe', 'asd', '1583595132', '1583595612_InJoon_default.png', '5');
+(21, 'Budi', '098923', 'budi', 'budi@budi.com', 'asdasd', '$2y$10$nX09shuqYibKKSs6YxuHgOUuBc81amYCUEcvSsmxp/FIoz9kXsMAe', 'asd', '1583595132', '1583595612_InJoon_default.png', '5'),
+(22, 'Ayra', '08182240340', 'aira', 'aira@gmail.co', 'asdasd', '$2y$10$9uI9hHTz1n0D.tRt4OishO2HfOlFfpUy3yftPyH.8ZDb1Z0LVpA8.', 'asd', '1585222377', '1585222377_InJoon_1.png', '5');
 
 --
 -- Indexes for dumped tables
@@ -372,13 +376,13 @@ ALTER TABLE `tb_best_seller`
 -- AUTO_INCREMENT for table `tb_detail_order`
 --
 ALTER TABLE `tb_detail_order`
-  MODIFY `dorder_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `dorder_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT for table `tb_kategori`
 --
 ALTER TABLE `tb_kategori`
-  MODIFY `kategori_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `kategori_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tb_masakan`
@@ -408,13 +412,13 @@ ALTER TABLE `tb_role`
 -- AUTO_INCREMENT for table `tb_transaksi`
 --
 ALTER TABLE `tb_transaksi`
-  MODIFY `transaksi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `transaksi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

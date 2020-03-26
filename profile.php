@@ -178,6 +178,7 @@ include 'templates/header.php';
         </div>
     </div>
 </div>
+
 <?php require 'templates/footer_text.php' ?>
 
 <script src="frontend/libraries/jquery/jquery-3.4.1.min.js"></script>

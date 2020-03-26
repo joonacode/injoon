@@ -1,5 +1,8 @@
 <?php
 session_start();
+if (isset($_SESSION['login'])) {
+    header('Location:dashboard.php');
+}
 require 'backend/config.php';
 $q_pengaturan = mysqli_query($conn, "SELECT * FROM tb_pengaturan WHERE pengaturan_id = 1");
 $pengaturan = mysqli_fetch_assoc($q_pengaturan);
@@ -44,28 +47,25 @@ $pengaturan = mysqli_fetch_assoc($q_pengaturan);
                         <a href="menu.php" class="nav-link">Menu</a>
                     </li>
                     <li class="nav-item mx-md-2">
-                        <a href="#about" class="nav-link">Tentang Kami</a>
+                        <a href="index.php#about" class="nav-link">Tentang Kami</a>
                     </li>
                     <li class="nav-item mx-md-2">
-                        <a href="#testimoni" class="nav-link">Testimoni</a>
+                        <a href="index.php#testimoni" class="nav-link">Testimoni</a>
                     </li>
                     <li class="nav-item mx-md-2">
-                        <a href="#kontak-kami" class="nav-link">Kontak</a>
+                        <a href="index.php#kontak-kami" class="nav-link">Kontak</a>
                     </li>
                 </ul>
                 <?php if (isset($_SESSION['login'])) : ?>
-
                     <div class="ml-auto">
                         <a href="dashboard.php" class="btn btn-sm text-white bg-secondary shadow btn-sm"><i class="fas fa-home"></i></a>
                         <?php
                         $ses = $_SESSION['role'];
                         if ($ses == 2 || $ses == 3) :
-
                         ?>
                             <button type="button" data-toggle="modal" data-target="#modalKeranjang" class="btn btn-sm shadow text-white bg-cus-dark btn-sm"><i class="fas fa-shopping-bag"></i></button>
                     </div>
                 <?php endif; ?>
-
             <?php else : ?>
                 <div class="ml-auto">
                     <a href="login.php" class="btn btn-sm text-white px-3 bg-secondary text-small shadow btn-sm">Login <i class="fas fa-sign-in-alt"></i></a>
@@ -75,6 +75,7 @@ $pengaturan = mysqli_fetch_assoc($q_pengaturan);
 
         </div>
     </nav>
+
     <!-- Jika user belum login jangan tampilkan bagian bawah ini -->
     <?php if (isset($_SESSION['login'])) : ?>
         <div class="modal fade" id="modalKeranjang" tabindex="-1" role="dialog" aria-labelledby="modalKeranjangLabel" aria-hidden="true">
@@ -178,3 +179,66 @@ $pengaturan = mysqli_fetch_assoc($q_pengaturan);
             </div>
         </div>
     <?php endif; ?>
+    
+    <!-- Header -->
+    <section class="header-page">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.php" class="text-decoration-none">Home</a></li>
+                    <li class="breadcrumb-item"><a href="menu.php" class="text-decoration-none">List Menu</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Login</li>
+                </ol>
+            </nav>
+            <h1>Login</h1>
+        </div>
+    </section>
+
+    <section class="list-menu mb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12 mx-auto">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body">
+                            <!-- Tampilan Pesan Jika Login -->
+                            <?php if (isset($_SESSION['pesan'])) : ?>
+                                <?= $_SESSION['pesan'] ?>
+                            <?php
+                                unset($_SESSION['pesan']);
+                            endif;
+                            ?>
+                            <!-- ------- -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="text-center mt-4 mb-1">
+                                            <h5> Login <i class="fas fa-lock"></i></h5>
+                                        </div>
+
+                                        <form action="backend/login/cek_login.php" method="POST">
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <label for="">Username / Email</label>
+                                                    <input type="text" name="ue" autofocus class="form-control">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="">Password</label>
+                                                    <input type="password" name="password" class="form-control">
+                                                </div>
+                                                <button type="submit" class="btn btn-primary text-white btn-block">Login <i class="fas fa-sign-in-alt"></i></button>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <?php require 'templates/footer.php' ?>

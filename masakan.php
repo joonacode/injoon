@@ -4,7 +4,7 @@ include 'templates/header.php';
 $masakan = mysqli_query($conn, "SELECT * FROM tb_masakan ORDER BY masakan_id DESC");
 
 if ($_SESSION['role'] != 2) {
-    header('Location:hayuu.php');
+    header('Location:login.php');
 }
 
 ?>
@@ -96,8 +96,7 @@ if ($_SESSION['role'] != 2) {
     </div>
 </section>
 
-
-<!-- Modal tambah user -->
+<!-- Modal tambah menu -->
 <div class="modal fade" id="tambah-user" tabindex="1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -175,7 +174,7 @@ if ($_SESSION['role'] != 2) {
     </div>
 </div>
 
-<!-- Modal tambah user -->
+<!-- Modal ubah menu -->
 <?php foreach ($masakan as $u_masakan) : ?>
     <div class="modal fade" id="ubahMasakan_<?= $u_masakan['masakan_id'] ?>" tabindex="1" role="dialog">
         <div class="modal-dialog" role="document">
